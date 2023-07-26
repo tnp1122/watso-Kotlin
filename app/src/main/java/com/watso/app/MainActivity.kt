@@ -23,6 +23,8 @@ import com.watso.app.API.UserInfo
 import com.watso.app.databinding.ActivityMainBinding
 import com.watso.app.fragmentAccount.FragmentLogin
 import com.watso.app.fragmentBaedal.Baedal.FragmentBaedal
+import com.watso.app.util.PreferenceUtil
+import com.watso.app.util.RequestPermission
 import java.util.*
 
 class MainActivity : AppCompatActivity() {

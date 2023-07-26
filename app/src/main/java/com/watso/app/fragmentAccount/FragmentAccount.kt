@@ -17,7 +17,7 @@ import com.watso.app.API.*
 import com.watso.app.API.DataModels.ErrorResponse
 import com.watso.app.ActivityController
 import com.watso.app.MainActivity
-import com.watso.app.RequestPermission
+import com.watso.app.util.RequestPermission
 import com.watso.app.databinding.FragAccountBinding
 import retrofit2.Call
 import retrofit2.Callback

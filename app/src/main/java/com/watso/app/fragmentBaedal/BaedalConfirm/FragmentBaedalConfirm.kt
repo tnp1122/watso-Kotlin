@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -19,7 +18,7 @@ import com.watso.app.databinding.FragBaedalConfirmBinding
 import com.google.gson.Gson
 import com.watso.app.API.DataModels.ErrorResponse
 import com.watso.app.ActivityController
-import com.watso.app.RequestPermission
+import com.watso.app.util.RequestPermission
 import com.watso.app.fragmentBaedal.Baedal.FragmentBaedal
 import com.watso.app.fragmentBaedal.BaedalPost.FragmentBaedalPost
 import retrofit2.Call

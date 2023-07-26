@@ -1,4 +1,4 @@
-package com.watso.app
+package com.watso.app.util
 
 import android.content.Context
 import android.content.SharedPreferences

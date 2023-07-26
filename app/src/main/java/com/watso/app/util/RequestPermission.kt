@@ -1,4 +1,4 @@
-package com.watso.app
+package com.watso.app.util
 
 import android.Manifest
 import android.app.AlertDialog
@@ -10,6 +10,7 @@ import android.os.Build
 import android.provider.Settings
 import android.util.Log
 import androidx.core.app.ActivityCompat
+import com.watso.app.MainActivity
 
 class RequestPermission(val activity: MainActivity) {
     private val TAG = "권한 요청"
