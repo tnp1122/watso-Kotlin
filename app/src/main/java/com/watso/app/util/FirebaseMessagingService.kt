@@ -1,4 +1,4 @@
-package com.watso.app
+package com.watso.app.util
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -12,6 +12,8 @@ import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.watso.app.MainActivity
+import com.watso.app.R
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
     /** 푸시 알림으로 보낼 수 있는 메세지는 2가지
