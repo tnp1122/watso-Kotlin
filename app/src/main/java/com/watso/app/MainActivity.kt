@@ -13,16 +13,18 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import com.watso.app.API.UserInfo
 import com.watso.app.databinding.ActivityMainBinding
-import com.watso.app.fragmentAccount.FragmentLogin
-import com.watso.app.fragmentBaedal.Baedal.FragmentBaedal
+import com.watso.app.feature.auth.ui.view.FragmentLogin
+//import com.watso.app.fragmentBaedal.Baedal.FragmentBaedal
+import com.watso.app.util.InitAppViewModel
+import com.watso.app.util.InitAppManager
 import com.watso.app.util.PreferenceUtil
 import com.watso.app.util.RequestPermission
 import java.util.*
@@ -31,8 +33,9 @@ class MainActivity : AppCompatActivity() {
 
     var mBinding: ActivityMainBinding? = null
     val binding get() = mBinding!!
-    val TAG = "MainActivity"
-    val api = API.create()
+
+    private val initAppViewModel by viewModels<InitAppViewModel>()
+    private val TAG = "MainActivity"
 
     companion object { lateinit var prefs: PreferenceUtil }
 
@@ -49,12 +52,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         prefs = PreferenceUtil(applicationContext)
 
-        initApp(this)
+        InitAppManager(initAppViewModel, this).initApp()
 
         binding.linearLayout.visibility = View.GONE
-        binding.btnHome.setOnClickListener { makeToast("게시판 준비중입니다.")/*setFrag(FragmentHome(), popBackStack = 0, fragIndex=0)*/ }
-        binding.btnBaedal.setOnClickListener { setFrag(FragmentBaedal(), popBackStack = 0, fragIndex=1) }
-        binding.btnTaxi.setOnClickListener { makeToast("게시판 준비중입니다.")/*setFrag(FragmentTaxi(),popBackStack = 0, fragIndex=2)*/ }
+//        binding.btnHome.setOnClickListener { makeToast("게시판 준비중입니다.")/*setFrag(FragmentHome(), popBackStack = 0, fragIndex=0)*/ }
+//        binding.btnBaedal.setOnClickListener { setFrag(FragmentBaedal(), popBackStack = 0, fragIndex=1) }
+//        binding.btnTaxi.setOnClickListener { makeToast("게시판 준비중입니다.")/*setFrag(FragmentTaxi(),popBackStack = 0, fragIndex=2)*/ }
     }
 
     override fun onDestroy() {
@@ -238,25 +241,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun setUserInfo(userInfo: UserInfo) {
-        prefs.setString("name", userInfo.name)
-        prefs.setString("nickname", userInfo.nickname)
-        prefs.setString("accountNum", userInfo.accountNumber)
-    }
-
     fun logOut(message: String?=null) {
         message?.let { makeToast(it) }
 
-        prefs.removeString("accessToken")
-        prefs.removeString("refreshToken")
-        prefs.removeString("userId")
-        prefs.removeString("nickname")
-        prefs.removeString("name")
-        prefs.removeString("accountNum")
-        prefs.removeString("deviceInited")
-        prefs.removeString("fcmToken")
-        prefs.removeString("previousFcmToken")
-//        MyFirebaseMessagingService().getFirebaseToken()
+        prefs.clearData()
         setFrag(FragmentLogin(), null, 0)
     }
 }
