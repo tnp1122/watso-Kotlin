@@ -220,6 +220,10 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
+    fun showToast(message: String){
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
     fun decodeToken(jwt: String): String {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return "Requires SDK 26"
         val parts = jwt.split(".")
