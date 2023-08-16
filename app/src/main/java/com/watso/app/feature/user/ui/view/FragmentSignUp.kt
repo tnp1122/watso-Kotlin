@@ -175,7 +175,7 @@ class FragmentSignUp : BaseFragment() {
             }
         }
 
-        signupViewModel.checkusernameResponse.observe(mActivity) {
+        signupViewModel.checkUsernameResponse.observe(mActivity) {
             when (it) {
                 is BaseResponse.Loading -> onLoading()
                 is BaseResponse.Success -> onCheckUsernameSuccess(verifiyingUsername, it.data)

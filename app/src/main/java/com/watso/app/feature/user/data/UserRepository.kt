@@ -68,7 +68,7 @@ class UserRepository(context: Context) {
 
     /** 기기 관리 */
 
-    suspend fun sendFcmtoken(fcmToken: FcmToken): Response<ResponseBody> {
+    suspend fun sendFcmToken(fcmToken: FcmToken): Response<ResponseBody> {
         return api.sendFcmToken(fcmToken)
     }
 

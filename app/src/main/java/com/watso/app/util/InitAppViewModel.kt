@@ -38,7 +38,7 @@ class InitAppViewModel(application: Application): AndroidViewModel(application) 
         sendFcmTokenResult.value = BaseResponse.Loading()
         viewModelScope.launch {
             try {
-                val response = userRepo.sendFcmtoken(token)
+                val response = userRepo.sendFcmToken(token)
                 if (response.code() == 204) {
                     sendFcmTokenResult.value = BaseResponse.Success(response.body())
                 } else {

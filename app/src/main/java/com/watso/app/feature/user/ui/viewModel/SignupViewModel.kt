@@ -17,7 +17,7 @@ class SignupViewModel(application: Application): AndroidViewModel(application) {
 
     private val userRepo = UserRepository(application)
     val checkNicknameResponse: MutableLiveData<BaseResponse<CheckDuplicateResponse>> = MutableLiveData()
-    val checkusernameResponse: MutableLiveData<BaseResponse<CheckDuplicateResponse>> = MutableLiveData()
+    val checkUsernameResponse: MutableLiveData<BaseResponse<CheckDuplicateResponse>> = MutableLiveData()
     val sendVerificationCodeResponse: MutableLiveData<BaseResponse<ResponseBody>> = MutableLiveData()
     val checkVerificationCodeResponse: MutableLiveData<BaseResponse<VerificationResponse>> = MutableLiveData()
     val signupResponse: MutableLiveData<BaseResponse<ResponseBody>> = MutableLiveData()
@@ -39,17 +39,17 @@ class SignupViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun checkUsernameDuplicate(username: String) {
-        checkusernameResponse.value = BaseResponse.Loading()
+        checkUsernameResponse.value = BaseResponse.Loading()
         viewModelScope.launch {
             try {
                 val response = userRepo.checkDuplicate("username", username)
                 if (response.code() == 200) {
-                    checkusernameResponse.value = BaseResponse.Success(response.body())
+                    checkUsernameResponse.value = BaseResponse.Success(response.body())
                 } else {
-                    checkusernameResponse.value = BaseResponse.Error(response.message())
+                    checkUsernameResponse.value = BaseResponse.Error(response.message())
                 }
             } catch (ex: Exception) {
-                checkusernameResponse.value = BaseResponse.Error(ex.message)
+                checkUsernameResponse.value = BaseResponse.Error(ex.message)
             }
         }
     }
