@@ -11,7 +11,7 @@ import com.watso.app.MainActivity
 import com.watso.app.data.model.BaseResponse
 import com.watso.app.databinding.FragLoginBinding
 import com.watso.app.feature.auth.ui.viewModel.LoginViewModel
-import com.watso.app.feature.user.ui.view.FragmentSignUp
+import com.watso.app.feature.user.ui.view.FragmentSignup
 import com.watso.app.fragmentAccount.FragmentFindAccount
 
 private const val LOGIN_FAIL = "로그인 실패"
@@ -36,7 +36,7 @@ class FragmentLogin: BaseFragment() {
     private fun setClickListeners() {
         binding.btnLogin.setOnClickListener { doLogin() }
         binding.tvFindAccount.setOnClickListener { navigateTo(FragmentFindAccount()) }
-        binding.btnSignup.setOnClickListener { navigateTo(FragmentSignUp()) }
+        binding.btnSignup.setOnClickListener { navigateTo(FragmentSignup()) }
     }
 
     private fun setObservers(mActivity: MainActivity) {

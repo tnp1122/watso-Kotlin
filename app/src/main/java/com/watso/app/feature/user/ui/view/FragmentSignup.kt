@@ -19,7 +19,7 @@ import kotlinx.coroutines.*
 import com.watso.app.MainActivity
 import com.watso.app.R
 import com.watso.app.data.model.BaseResponse
-import com.watso.app.databinding.FragSignUpBinding
+import com.watso.app.databinding.FragSignupBinding
 import com.watso.app.feature.user.data.CheckDuplicateResponse
 import com.watso.app.feature.user.data.SignupForm
 import com.watso.app.feature.user.data.VerificationResponse
@@ -32,12 +32,12 @@ private const val SEND_CODE_FAIL = "인증코드를 전송하지 못했습니다
 private const val CHECK_CODE_FAIL = "인증코드를 확인하지 못했습니다."
 private const val SIGNUP_FAIL = "회원가입에 실패했습니다."
 
-class FragmentSignUp : BaseFragment() {
+class FragmentSignup : BaseFragment() {
 
     lateinit var fragmentContext: Context
     lateinit var job: Job
 
-    var mBinding: FragSignUpBinding? = null
+    var mBinding: FragSignupBinding? = null
     val binding get() = mBinding!!
     val TAG = "[FragSignup]"
     val signupViewModel by viewModels<SignupViewModel>()
@@ -67,7 +67,7 @@ class FragmentSignUp : BaseFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        mBinding = FragSignUpBinding.inflate(layoutInflater)
+        mBinding = FragSignupBinding.inflate(layoutInflater)
 
         val mActivity = activity as MainActivity
 
