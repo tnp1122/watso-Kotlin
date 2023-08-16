@@ -158,16 +158,16 @@ class InitAppManager(
         navigateToHome()
     }
 
-    private fun navigateTo(fragment: Fragment, fragindex: Int) {
-        AC.navigateTo(fragment, fragIndex = fragindex)
+    private fun navigateTo(fragment: Fragment) {
+        AC.navigateTo(fragment, popBackStack = 0)
     }
 
     private fun navigateToHome() {
-        navigateTo(FragmentHome(), 1)
+        navigateTo(FragmentHome())
     }
 
     private fun navigateToLogin() {
-        navigateTo(FragmentLogin(), 0)
+        navigateTo(FragmentLogin())
     }
 
     private fun showProgressBar() {
