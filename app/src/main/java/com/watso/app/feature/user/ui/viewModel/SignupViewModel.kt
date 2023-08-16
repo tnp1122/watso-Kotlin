@@ -22,83 +22,42 @@ class SignupViewModel(application: Application): AndroidViewModel(application) {
     val checkVerificationCodeResponse: MutableLiveData<BaseResponse<VerificationResponse>> = MutableLiveData()
     val signupResponse: MutableLiveData<BaseResponse<ResponseBody>> = MutableLiveData()
 
-    fun checkNicknameDuplicate(nickname: String) {
-        checkNicknameResponse.value = BaseResponse.Loading()
+    private fun <T> makeRequest(
+        liveData: MutableLiveData<BaseResponse<T>>,
+        request: suspend () -> retrofit2.Response<T>
+    ) {
+        liveData.value = BaseResponse.Loading()
         viewModelScope.launch {
             try {
-                val response = userRepo.checkDuplicate("nickname", nickname)
-                if (response.code() == 200) {
-                    checkNicknameResponse.value = BaseResponse.Success(response.body())
+                val response = request()
+                if (response.isSuccessful) {
+                    liveData.value = BaseResponse.Success(response.body())
                 } else {
-                    checkNicknameResponse.value = BaseResponse.Error(response.message())
+                    liveData.value = BaseResponse.Error(response.message())
                 }
             } catch (ex: Exception) {
-                checkNicknameResponse.value = BaseResponse.Error(ex.message)
+                liveData.value = BaseResponse.Error(ex.message)
             }
         }
+    }
+
+    fun checkNicknameDuplicate(nickname: String) {
+        makeRequest(checkNicknameResponse) { userRepo.checkDuplicate("nickname", nickname) }
     }
 
     fun checkUsernameDuplicate(username: String) {
-        checkUsernameResponse.value = BaseResponse.Loading()
-        viewModelScope.launch {
-            try {
-                val response = userRepo.checkDuplicate("username", username)
-                if (response.code() == 200) {
-                    checkUsernameResponse.value = BaseResponse.Success(response.body())
-                } else {
-                    checkUsernameResponse.value = BaseResponse.Error(response.message())
-                }
-            } catch (ex: Exception) {
-                checkUsernameResponse.value = BaseResponse.Error(ex.message)
-            }
-        }
+        makeRequest(checkUsernameResponse) { userRepo.checkDuplicate("username", username) }
     }
 
     fun sendVerificationCode(email: String) {
-        sendVerificationCodeResponse.value = BaseResponse.Loading()
-        viewModelScope.launch {
-            try {
-                val response = userRepo.sendVerificationCode(email)
-                if (response.code() == 204) {
-                    sendVerificationCodeResponse.value = BaseResponse.Success(response.body())
-                } else {
-                    sendVerificationCodeResponse.value = BaseResponse.Error(response.message())
-                }
-            } catch (ex: Exception) {
-                sendVerificationCodeResponse.value = BaseResponse.Error(ex.message)
-            }
-        }
+        makeRequest(sendVerificationCodeResponse) { userRepo.sendVerificationCode(email) }
     }
 
     fun checkVerificationCode(email: String, verifyCode: String) {
-        checkVerificationCodeResponse.value = BaseResponse.Loading()
-        viewModelScope.launch {
-            try {
-                val response = userRepo.checkVerificationCode(email, verifyCode)
-                if (response.code() == 200) {
-                    checkVerificationCodeResponse.value = BaseResponse.Success(response.body())
-                } else {
-                    checkVerificationCodeResponse.value = BaseResponse.Error(response.message())
-                }
-            } catch (ex: Exception) {
-                checkVerificationCodeResponse.value = BaseResponse.Error(ex.message)
-            }
-        }
+        makeRequest(checkVerificationCodeResponse) { userRepo.checkVerificationCode(email, verifyCode) }
     }
 
     fun signup(signupForm: SignupForm) {
-        signupResponse.value = BaseResponse.Loading()
-        viewModelScope.launch {
-            try {
-                val response = userRepo.signup(signupForm)
-                if (response.code() == 201) {
-                    signupResponse.value = BaseResponse.Success(response.body())
-                } else {
-                    signupResponse.value = BaseResponse.Error(response.message())
-                }
-            } catch (ex: Exception) {
-                signupResponse.value = BaseResponse.Error(ex.message)
-            }
-        }
+        makeRequest(signupResponse) { userRepo.signup(signupForm) }
     }
 }

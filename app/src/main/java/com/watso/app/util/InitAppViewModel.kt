@@ -18,35 +18,30 @@ class InitAppViewModel(application: Application): AndroidViewModel(application) 
     val userInfo: MutableLiveData<BaseResponse<UserInfo>> = MutableLiveData()
     val sendFcmTokenResult: MutableLiveData<BaseResponse<ResponseBody>> = MutableLiveData()
 
-    fun getUserInfo() {
-        userInfo.value = BaseResponse.Loading()
+    private fun <T> makeRequest(
+        liveData: MutableLiveData<BaseResponse<T>>,
+        request: suspend () -> retrofit2.Response<T>
+    ) {
+        liveData.value = BaseResponse.Loading()
         viewModelScope.launch {
             try {
-                val response = userRepo.getUserInfo()
-                if (response.code() == 200) {
-                    userInfo.value = BaseResponse.Success(response.body())
+                val response = request()
+                if (response.isSuccessful) {
+                    liveData.value = BaseResponse.Success(response.body())
                 } else {
-                    userInfo.value = BaseResponse.Error(response.message())
+                    liveData.value = BaseResponse.Error(response.message())
                 }
             } catch (ex: Exception) {
-                userInfo.value = BaseResponse.Error(ex.message)
+                liveData.value = BaseResponse.Error(ex.message)
             }
         }
     }
 
+    fun getUserInfo() {
+        makeRequest(userInfo) { userRepo.getUserInfo() }
+    }
+
     fun sendFcmToken(token: FcmToken) {
-        sendFcmTokenResult.value = BaseResponse.Loading()
-        viewModelScope.launch {
-            try {
-                val response = userRepo.sendFcmToken(token)
-                if (response.code() == 204) {
-                    sendFcmTokenResult.value = BaseResponse.Success(response.body())
-                } else {
-                    sendFcmTokenResult.value = BaseResponse.Error(response.message())
-                }
-            } catch (ex: Exception) {
-                sendFcmTokenResult.value = BaseResponse.Error(ex.message)
-            }
-        }
+        makeRequest(sendFcmTokenResult) { userRepo.sendFcmToken(token) }
     }
 }
