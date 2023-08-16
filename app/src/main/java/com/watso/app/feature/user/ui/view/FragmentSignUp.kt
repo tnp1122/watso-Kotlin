@@ -13,8 +13,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.watso.app.BaseFragment
 import kotlinx.coroutines.*
 import com.watso.app.MainActivity
 import com.watso.app.R
@@ -24,7 +24,6 @@ import com.watso.app.feature.user.data.CheckDuplicateResponse
 import com.watso.app.feature.user.data.SignupForm
 import com.watso.app.feature.user.data.VerificationResponse
 import com.watso.app.feature.user.ui.viewModel.SignupViewModel
-import com.watso.app.util.ActivityController
 import com.watso.app.util.ErrorString
 
 private const val NICKNAME_CHECK_FAIL = "사용할 수 없는 닉네임입니다."
@@ -33,10 +32,8 @@ private const val SEND_CODE_FAIL = "인증코드를 전송하지 못했습니다
 private const val CHECK_CODE_FAIL = "인증코드를 확인하지 못했습니다."
 private const val SIGNUP_FAIL = "회원가입에 실패했습니다."
 
+class FragmentSignUp : BaseFragment() {
 
-class FragmentSignUp :Fragment() {
-
-    lateinit var AC: ActivityController
     lateinit var fragmentContext: Context
     lateinit var job: Job
 
@@ -73,7 +70,6 @@ class FragmentSignUp :Fragment() {
         mBinding = FragSignUpBinding.inflate(layoutInflater)
 
         val mActivity = activity as MainActivity
-        AC = ActivityController(mActivity)
 
         setUpUI(mActivity)
 
@@ -88,7 +84,7 @@ class FragmentSignUp :Fragment() {
     }
 
     fun setUpUI(mActivity: MainActivity) {
-        binding.btnPrevious.setOnClickListener { AC.onBackPressed() }
+        binding.btnPrevious.setOnClickListener { onBackPressed() }
         binding.btnSignup.setEnabled(false)
         setUpNickname(mActivity)
         setUpUsername(mActivity)
@@ -136,8 +132,8 @@ class FragmentSignUp :Fragment() {
             when (it) {
                 is BaseResponse.Loading -> onLoading()
                 is BaseResponse.Success -> onCheckNicknameSuccess(verifiyingNickname, it.data)
-                is BaseResponse.Error -> onError(NICKNAME_CHECK_FAIL, it.msg)
-                else -> onException(NICKNAME_CHECK_FAIL, it.toString())
+                is BaseResponse.Error -> onError(NICKNAME_CHECK_FAIL, it.msg, TAG)
+                else -> onException(NICKNAME_CHECK_FAIL, it.toString(), TAG)
             }
         }
     }
@@ -183,8 +179,8 @@ class FragmentSignUp :Fragment() {
             when (it) {
                 is BaseResponse.Loading -> onLoading()
                 is BaseResponse.Success -> onCheckUsernameSuccess(verifiyingUsername, it.data)
-                is BaseResponse.Error -> onError(USERNAME_CHECK_FAIL, it.msg)
-                else -> onException(USERNAME_CHECK_FAIL, it.toString())
+                is BaseResponse.Error -> onError(USERNAME_CHECK_FAIL, it.msg, TAG)
+                else -> onException(USERNAME_CHECK_FAIL, it.toString(), TAG)
             }
         }
     }
@@ -259,8 +255,8 @@ class FragmentSignUp :Fragment() {
             when (it) {
                 is BaseResponse.Loading -> onLoading()
                 is BaseResponse.Success -> onSendVerificationCodeSuccess()
-                is BaseResponse.Error -> onError(SEND_CODE_FAIL, it.msg)
-                else -> onException(SEND_CODE_FAIL, it.toString())
+                is BaseResponse.Error -> onError(SEND_CODE_FAIL, it.msg, TAG)
+                else -> onException(SEND_CODE_FAIL, it.toString(), TAG)
             }
         }
 
@@ -268,8 +264,8 @@ class FragmentSignUp :Fragment() {
             when (it) {
                 is BaseResponse.Loading -> onLoading()
                 is BaseResponse.Success -> onCheckVerificationCodeSuccess(it.data)
-                is BaseResponse.Error -> onError(CHECK_CODE_FAIL, it.msg)
-                else -> onException(CHECK_CODE_FAIL, it.toString())
+                is BaseResponse.Error -> onError(CHECK_CODE_FAIL, it.msg, TAG)
+                else -> onException(CHECK_CODE_FAIL, it.toString(), TAG)
             }
         }
     }
@@ -294,38 +290,10 @@ class FragmentSignUp :Fragment() {
             when (it) {
                 is BaseResponse.Loading -> onLoading()
                 is BaseResponse.Success -> onSignupSuccess()
-                is BaseResponse.Error -> onError(SIGNUP_FAIL, it.msg)
-                else -> onException(SIGNUP_FAIL, it.toString())
+                is BaseResponse.Error -> onError(SIGNUP_FAIL, it.msg, TAG)
+                else -> onException(SIGNUP_FAIL, it.toString(), TAG)
             }
         }
-    }
-
-    fun onLoading() {
-        showProgressBar()
-    }
-
-    fun onError(msg: String, errMsg: String?) {
-        hideProgressBar()
-
-        if (errMsg == null) {
-            showToast("$msg: ${ErrorString.E5001}")
-            return
-        }
-
-        Log.e(TAG, "onError: $msg")
-        showToast(msg)
-    }
-
-    fun onException(msg: String, exMsg: String?) {
-        hideProgressBar()
-
-        if (exMsg == null) {
-            showToast("$msg: ${ErrorString.E5000}")
-            return
-        }
-
-        Log.e(TAG, "$msg: $exMsg")
-        showToast("$msg: $exMsg")
     }
 
     fun onCheckNicknameSuccess(nickname: String, data: CheckDuplicateResponse?) {
@@ -503,19 +471,7 @@ class FragmentSignUp :Fragment() {
         }
     }
 
-    fun showProgressBar() {
-        AC.showProgressBar()
-    }
-
-    fun hideProgressBar() {
-        AC.hideProgressBar()
-    }
-
-    fun showToast(msg: String) {
-        AC.showToast(msg)
-    }
-
     fun navigateToLogin() {
-        AC.onBackPressed()
+        onBackPressed()
     }
 }
