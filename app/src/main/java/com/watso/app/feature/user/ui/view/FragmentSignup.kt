@@ -69,9 +69,7 @@ class FragmentSignup : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         mBinding = FragSignupBinding.inflate(layoutInflater)
 
-        val mActivity = activity as MainActivity
-
-        setUpUI(mActivity)
+        setUpUI()
 
         return binding.root
     }
@@ -83,18 +81,18 @@ class FragmentSignup : BaseFragment() {
             job.cancel()
     }
 
-    fun setUpUI(mActivity: MainActivity) {
+    fun setUpUI() {
         binding.btnPrevious.setOnClickListener { onBackPressed() }
         binding.btnSignup.setEnabled(false)
-        setUpNickname(mActivity)
-        setUpUsername(mActivity)
+        setUpNickname()
+        setUpUsername()
         setUpPassword()
         setUpAccountNum()
-        setUpEmail(mActivity)
-        setUpSignup(mActivity)
+        setUpEmail()
+        setUpSignup()
     }
 
-    fun setUpNickname(mActivity: MainActivity) {
+    fun setUpNickname() {
         var nickname = ""
         var verifiyingNickname = ""
 
@@ -138,7 +136,7 @@ class FragmentSignup : BaseFragment() {
         }
     }
 
-    fun setUpUsername(mActivity: MainActivity) {
+    fun setUpUsername() {
         var username = ""
         var verifiyingUsername = ""
         binding.etUsername.addTextChangedListener(object: TextWatcher {
@@ -219,7 +217,7 @@ class FragmentSignup : BaseFragment() {
             }
         }}
 
-    fun setUpEmail(mActivity: MainActivity) {
+    fun setUpEmail() {
         binding.tvCoolTime.visibility = View.GONE
 
         binding.etEmail.addTextChangedListener(object: TextWatcher {
@@ -270,7 +268,7 @@ class FragmentSignup : BaseFragment() {
         }
     }
 
-    fun setUpSignup(mActivity: MainActivity) {
+    fun setUpSignup() {
         binding.btnSignup.setOnClickListener {
             if (verifySignup()) {
                 var signupForm = SignupForm(

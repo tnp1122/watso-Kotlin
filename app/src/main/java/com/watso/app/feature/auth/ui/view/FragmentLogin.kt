@@ -25,10 +25,8 @@ class FragmentLogin: BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragLoginBinding.inflate(layoutInflater)
 
-        val mActivity = activity as MainActivity
-
         setClickListeners()
-        setObservers(mActivity)
+        setObservers()
 
         return binding.root
     }
@@ -39,7 +37,7 @@ class FragmentLogin: BaseFragment() {
         binding.btnSignup.setOnClickListener { navigateTo(FragmentSignup()) }
     }
 
-    private fun setObservers(mActivity: MainActivity) {
+    private fun setObservers() {
         loginViewModel.loginResponse.observe(mActivity) {
             when (it) {
                 is BaseResponse.Loading -> onLoading()
