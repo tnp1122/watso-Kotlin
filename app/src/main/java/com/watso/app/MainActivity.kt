@@ -280,9 +280,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun logOut(message: String?=null) {
-        message?.let { makeToast(it) }
+        message?.let { showToast(it) }
 
         prefs.clearData()
-        setFrag(FragmentLogin(), null, 0)
+        navigateTo(FragmentLogin(), null, 0)
     }
 }
