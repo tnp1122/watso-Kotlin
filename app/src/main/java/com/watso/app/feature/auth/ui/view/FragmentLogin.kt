@@ -18,12 +18,13 @@ private const val LOGIN_FAIL = "로그인 실패"
 
 class FragmentLogin: BaseFragment() {
 
-    private lateinit var binding: FragLoginBinding
-    private val loginViewModel by viewModels<LoginViewModel>()
-    private val TAG = "[FragLogin]"
+    var mBinding: FragLoginBinding? = null
+    val binding get() = mBinding!!
+    val TAG = "[FragLogin]"
+    val loginViewModel by viewModels<LoginViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragLoginBinding.inflate(layoutInflater)
+        mBinding = FragLoginBinding.inflate(layoutInflater)
 
         setClickListeners()
         setObservers()
@@ -31,13 +32,13 @@ class FragmentLogin: BaseFragment() {
         return binding.root
     }
 
-    private fun setClickListeners() {
+    fun setClickListeners() {
         binding.btnLogin.setOnClickListener { doLogin() }
         binding.tvFindAccount.setOnClickListener { navigateTo(FragmentFindAccount()) }
         binding.btnSignup.setOnClickListener { navigateTo(FragmentSignup()) }
     }
 
-    private fun setObservers() {
+    fun setObservers() {
         loginViewModel.loginResponse.observe(mActivity) {
             when (it) {
                 is BaseResponse.Loading -> onLoading()
@@ -48,14 +49,14 @@ class FragmentLogin: BaseFragment() {
         }
     }
 
-    private fun onSuccess() {
+    fun onSuccess() {
         hideProgressBar()
         Log.d(TAG, "========== 로그인 성공 ==========")
         // getUserInfo 과정 구현하기
 //        navigateTo(FragmentHome(), 0)
     }
 
-    private fun doLogin() {
+    fun doLogin() {
         val username = binding.etUsername.text.toString()
         val password = binding.etPassword.text.toString()
         loginViewModel.login(username, password)
