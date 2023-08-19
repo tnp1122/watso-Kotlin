@@ -1,6 +1,8 @@
 package com.watso.app
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +11,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.watso.app.util.ActivityController
 import com.watso.app.util.ErrorString
+import com.watso.app.util.VerifyInput
 import java.lang.RuntimeException
 
 open class BaseFragment: Fragment() {
@@ -88,5 +91,18 @@ open class BaseFragment: Fragment() {
 
     fun showToast(msg: String) {
         AC.showToast(msg)
+    }
+
+    fun verifyInput(case: String, text: String): Boolean {
+        val message = VerifyInput.verifyInput(case, text)
+        return if (message == "") {
+            true
+        } else {
+            val builder = AlertDialog.Builder(mActivity)
+            builder.setMessage(message)
+                .setPositiveButton("확인", DialogInterface.OnClickListener { dialog, id -> })
+                .show()
+            false
+        }
     }
 }

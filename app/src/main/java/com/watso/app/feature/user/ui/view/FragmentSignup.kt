@@ -458,19 +458,6 @@ class FragmentSignup : BaseFragment() {
         return false
     }
 
-    fun verifyInput(case: String, text: String): Boolean {
-        val message = AC.verifyInput(case, text)
-        return if (message == "") {
-            true
-        } else {
-            val builder = AlertDialog.Builder(fragmentContext)
-            builder.setMessage(message)
-                .setPositiveButton("확인", DialogInterface.OnClickListener { dialog, id -> })
-                .show()
-            false
-        }
-    }
-
     fun navigateToLogin() {
         onBackPressed()
     }
