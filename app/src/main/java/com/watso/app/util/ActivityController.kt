@@ -12,7 +12,7 @@ class ActivityController(private val activity: MainActivity) {
 
     fun navigateTo(fragment: Fragment, arguments: Map<String, String>? = null, popBackStack:Int = -1, fragIndex:Int = 1) {
         hideSoftInput()
-        activity.setFrag(fragment, arguments, popBackStack, fragIndex)
+        activity.navigateTo(fragment, arguments, popBackStack, fragIndex)
     }
 
     fun onBackPressed() {

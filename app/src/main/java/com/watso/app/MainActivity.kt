@@ -138,6 +138,43 @@ class MainActivity : AppCompatActivity() {
         transaction.commit()
     }
 
+    /**  rename setFrag -> navigateTo */
+    fun navigateTo(fragment: Fragment, arguments: Map<String, String>? = null, popBackStack:Int = -1, fragIndex:Int = bottomBarIndex) {
+        // fragIndex와 하단바 인덱스를 비교하여 다른 탭으로 이동하였을 경우 해당 탭 강조
+        if (bottomBarIndex != fragIndex) setBottomBarSize(fragIndex)
+
+        if (arguments != null) {        // 넘겨줄 인자가 있나 체크
+            val bundle = Bundle()
+            for (i in arguments.keys) {
+                bundle.putString(i, arguments[i])
+            }
+            fragment.arguments = bundle
+        }
+
+        val fm = supportFragmentManager
+        val transaction = fm.beginTransaction()
+
+        // -1: 새로운 frag 추가, 0: 탭이동 (스택 초기화), else: 횟수만큼 뒤로 가기
+        when (popBackStack) {
+            -1 -> {
+                //transaction.setCustomAnimations(R.anim.enter_from_right, 0, 0, R.anim.exit_to_right)
+                transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                transaction.add(R.id.main_frame, fragment).addToBackStack(null)
+            }
+            0 -> {
+                val count = fm.backStackEntryCount
+                for (i in 0 until count) { fm.popBackStack() }
+                transaction.replace(R.id.main_frame, fragment)
+            }
+            else -> {
+                for (i in 0 until popBackStack) { fm.popBackStack() }
+                //transaction.replace(R.id.main_frame, fragment)
+                transaction.add(R.id.main_frame, fragment).addToBackStack(null)
+            }
+        }
+        transaction.commit()
+    }
+
     /**
      * fragindex: 강조할 탭 인덱스
      */
@@ -223,6 +260,7 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
+    /**  rename makeToast -> showToast */
     fun showToast(message: String){
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
