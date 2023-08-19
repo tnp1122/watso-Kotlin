@@ -22,16 +22,19 @@ class InitAppManager(
     private val TAG = "[InitApp]"
     private var tempFcmToken = ""
 
+    init {
+        setObservers()
+    }
+
     fun initApp() {
         val refreshToken = SessionManager.getRefreshToken(mActivity)
         val accessToken = SessionManager.getAccessToken(mActivity)
 
-        setObservers()
 
         if (refreshToken != "") {
             Log.d("$TAG access token", accessToken)
             Log.d("$TAG refresh token", refreshToken)
-            initAppViewModel.getUserInfo()
+            getUserInfo()
         } else {
             navigateToLogin()
         }
@@ -93,6 +96,10 @@ class InitAppManager(
 
         Log.e(TAG, "$msg: $exMsg")
         showToast("$msg: $exMsg")
+    }
+
+    fun getUserInfo() {
+        initAppViewModel.getUserInfo()
     }
 
     private fun onGetUserInfoSuccess(data: UserInfo?) {

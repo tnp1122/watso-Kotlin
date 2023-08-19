@@ -1,18 +1,18 @@
 package com.watso.app.feature.auth.ui.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.watso.app.BaseFragment
-import com.watso.app.MainActivity
 import com.watso.app.data.model.BaseResponse
 import com.watso.app.databinding.FragLoginBinding
 import com.watso.app.feature.auth.ui.viewModel.LoginViewModel
 import com.watso.app.feature.user.ui.view.FragmentSignup
 import com.watso.app.fragmentAccount.FragmentFindAccount
+import com.watso.app.util.ErrorString
+import okhttp3.Headers
 
 private const val LOGIN_FAIL = "로그인 실패"
 
@@ -39,21 +39,27 @@ class FragmentLogin: BaseFragment() {
     }
 
     fun setObservers() {
-        loginViewModel.loginResponse.observe(mActivity) {
+        loginViewModel.loginResponseHeaders.observe(mActivity) {
             when (it) {
                 is BaseResponse.Loading -> onLoading()
-                is BaseResponse.Success -> onSuccess()
+                is BaseResponse.Success -> onSuccess(it.data)
                 is BaseResponse.Error -> onError(LOGIN_FAIL, it.msg, TAG)
                 else -> onException(LOGIN_FAIL, it.toString(), TAG)
             }
         }
     }
 
-    fun onSuccess() {
+    fun onSuccess(headers: Headers?) {
         hideProgressBar()
-        Log.d(TAG, "========== 로그인 성공 ==========")
-        // getUserInfo 과정 구현하기
-//        navigateTo(FragmentHome(), 0)
+
+        if (headers == null) {
+            showToast(ErrorString.E5002)
+            return
+        }
+
+        val token = headers["Authentication"].toString().split("/")
+        mActivity.saveJWT(token)
+        mActivity.getUserInfo()
     }
 
     fun doLogin() {

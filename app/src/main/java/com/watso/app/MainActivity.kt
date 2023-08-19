@@ -22,20 +22,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.watso.app.databinding.ActivityMainBinding
 import com.watso.app.feature.auth.ui.view.FragmentLogin
-//import com.watso.app.fragmentBaedal.Baedal.FragmentBaedal
-import com.watso.app.util.InitAppViewModel
-import com.watso.app.util.InitAppManager
-import com.watso.app.util.PreferenceUtil
-import com.watso.app.util.RequestPermission
+import com.watso.app.util.*
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
     var mBinding: ActivityMainBinding? = null
     val binding get() = mBinding!!
+    val TAG = "[MainActivity]"
 
     private val initAppViewModel by viewModels<InitAppViewModel>()
-    private val TAG = "MainActivity"
+    private lateinit var initAppManager: InitAppManager
 
     companion object { lateinit var prefs: PreferenceUtil }
 
@@ -52,7 +49,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         prefs = PreferenceUtil(applicationContext)
 
-        InitAppManager(initAppViewModel, this).initApp()
+        initAppManager = InitAppManager(initAppViewModel, this)
+        initApp()
 
         binding.linearLayout.visibility = View.GONE
 //        binding.btnHome.setOnClickListener { makeToast("게시판 준비중입니다.")/*setFrag(FragmentHome(), popBackStack = 0, fragIndex=0)*/ }
@@ -94,6 +92,19 @@ class MainActivity : AppCompatActivity() {
                 else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
             }
         }
+    }
+
+    fun initApp() {
+        initAppManager.initApp()
+    }
+
+    fun saveJWT(tokens: List<String>) {
+        SessionManager.saveAccessToken(this, tokens[0])
+        SessionManager.saveRefreshToken(this, tokens[1])
+    }
+
+    fun getUserInfo() {
+        initAppManager.getUserInfo()
     }
 
     /**
