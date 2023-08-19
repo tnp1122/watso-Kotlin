@@ -6,6 +6,7 @@ import com.watso.app.FragmentHome
 import com.watso.app.MainActivity
 import com.watso.app.data.model.BaseResponse
 import com.watso.app.feature.auth.ui.view.FragmentLogin
+import com.watso.app.feature.baedal.ui.view.baedalList.FragmentBaedalList
 import com.watso.app.feature.user.data.FcmToken
 import com.watso.app.feature.user.data.UserInfo
 
@@ -105,14 +106,13 @@ class InitAppManager(
             return
         }
 
-        Log.d(TAG + "setUserInfo", data.toString())
         setUserInfo(data)
 
         checkFcmToken()
     }
 
     private fun setUserInfo(userInfo: UserInfo) {
-        val METHOD = "[setUserInfo]"
+        val METHOD = "[setUserInfo] "
         Log.d("$TAG $METHOD", userInfo.toString())
         AC.setString("name", userInfo.name)
         AC.setString("nickname", userInfo.nickname)
@@ -133,11 +133,11 @@ class InitAppManager(
 
                 if (token != previous) {
                     sendFcmToken(token)
-                } else navigateToHome()
+                } else navigateToBaedalList()
             } else {
                 hideProgressBar()
                 Log.e("$TAG $METHOD", "Error retrieving Firebase Token")
-                navigateToHome()
+                navigateToBaedalList()
             }
         }
     }
@@ -155,7 +155,7 @@ class InitAppManager(
         val token = tempFcmToken
         Log.d("[$TAG][$METHOD]", "token: $token")
         AC.setString("previousFcmToken", token)
-        navigateToHome()
+        navigateToBaedalList()
     }
 
     private fun navigateTo(fragment: Fragment) {
@@ -164,6 +164,10 @@ class InitAppManager(
 
     private fun navigateToHome() {
         navigateTo(FragmentHome())
+    }
+
+    private fun navigateToBaedalList() {
+        navigateTo(FragmentBaedalList())
     }
 
     private fun navigateToLogin() {

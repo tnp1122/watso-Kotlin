@@ -49,7 +49,7 @@ open class BaseFragment: Fragment() {
         showProgressBar()
     }
 
-    fun onError(msg: String, errMsg: String?, TAG: String?) {
+    fun onError(msg: String, errMsg: String?, TAG: String) {
         hideProgressBar()
 
         if (errMsg == null) {
@@ -61,7 +61,7 @@ open class BaseFragment: Fragment() {
         showToast(msg)
     }
 
-    fun onException(msg: String, exMsg: String?, TAG: String?) {
+    fun onException(msg: String, exMsg: String?, TAG: String) {
         hideProgressBar()
 
         if (exMsg == null) {
@@ -77,8 +77,8 @@ open class BaseFragment: Fragment() {
         AC.onBackPressed()
     }
 
-    fun navigateTo(fragment: Fragment, popBackStack:Int = -1) {
-        AC.navigateTo(fragment, popBackStack = popBackStack)
+    fun navigateTo(fragment: Fragment, arguments: Map<String, String>? = null, popBackStack:Int = -1, fragIndex:Int = 1) {
+        AC.navigateTo(fragment, arguments, popBackStack, fragIndex)
     }
 
     fun showProgressBar() {
