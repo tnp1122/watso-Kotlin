@@ -11,7 +11,6 @@ import com.watso.app.databinding.FragLoginBinding
 import com.watso.app.feature.auth.ui.viewModel.LoginViewModel
 import com.watso.app.feature.user.ui.view.FragmentSignup
 import com.watso.app.fragmentAccount.FragmentFindAccount
-import com.watso.app.util.ErrorString
 import okhttp3.Headers
 
 private const val LOGIN_FAIL = "로그인 실패"
@@ -50,10 +49,10 @@ class FragmentLogin: BaseFragment() {
     }
 
     fun onSuccess(headers: Headers?) {
-        hideProgressBar()
+        super.onSuccess()
 
         if (headers == null) {
-            showToast(ErrorString.E5002)
+            onExceptionalProblem(TAG)
             return
         }
 

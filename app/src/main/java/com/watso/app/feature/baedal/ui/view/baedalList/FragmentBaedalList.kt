@@ -177,10 +177,10 @@ class FragmentBaedalList :BaseFragment() {
     }
 
     fun onGetPostListSuccess(postList: List<BaedalPost>?, isJoinableTable: Boolean = false) {
-        hideProgressBar()
+        super.onSuccess()
 
         if (postList == null) {
-            showToast(ErrorString.E5002)
+            onExceptionalProblem(TAG)
             return
         }
 

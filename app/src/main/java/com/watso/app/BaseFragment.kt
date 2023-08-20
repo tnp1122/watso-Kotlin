@@ -49,6 +49,10 @@ open class BaseFragment: Fragment() {
         showProgressBar()
     }
 
+    fun onSuccess() {
+        hideProgressBar()
+    }
+
     fun onError(msg: String, errMsg: String?, TAG: String) {
         hideProgressBar()
 
@@ -71,6 +75,11 @@ open class BaseFragment: Fragment() {
 
         Log.e(TAG, "$msg: $exMsg")
         showToast("$msg: $exMsg")
+    }
+
+    fun onExceptionalProblem(TAG: String) {
+        Log.e(TAG, ErrorString.E5002)
+        showToast(ErrorString.E5002)
     }
 
     fun onBackPressed() {

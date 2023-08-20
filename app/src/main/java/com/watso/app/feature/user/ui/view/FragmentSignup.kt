@@ -16,7 +16,6 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.viewModels
 import com.watso.app.BaseFragment
 import kotlinx.coroutines.*
-import com.watso.app.MainActivity
 import com.watso.app.R
 import com.watso.app.data.model.BaseResponse
 import com.watso.app.databinding.FragSignupBinding
@@ -24,7 +23,6 @@ import com.watso.app.feature.user.data.CheckDuplicateResponse
 import com.watso.app.feature.user.data.SignupForm
 import com.watso.app.feature.user.data.VerificationResponse
 import com.watso.app.feature.user.ui.viewModel.SignupViewModel
-import com.watso.app.util.ErrorString
 
 private const val NICKNAME_CHECK_FAIL = "사용할 수 없는 닉네임입니다."
 private const val USERNAME_CHECK_FAIL = "사용할 수 없는 아이디입니다."
@@ -295,12 +293,13 @@ class FragmentSignup : BaseFragment() {
     }
 
     fun onCheckNicknameSuccess(nickname: String, data: CheckDuplicateResponse?) {
-        hideProgressBar()
+        super.onSuccess()
 
         if (data == null) {
-            showToast(ErrorString.E5002)
+            onExceptionalProblem(TAG)
             return
         }
+
         if (data.isDuplicated) {
             signupCheck["nickname"] = false
             binding.tvNicknameConfirm.text = "사용 불가능한 닉네임입니다."
@@ -315,12 +314,13 @@ class FragmentSignup : BaseFragment() {
     }
 
     fun onCheckUsernameSuccess(username: String, data: CheckDuplicateResponse?) {
-        hideProgressBar()
+        super.onSuccess()
 
         if (data == null) {
-            showToast(ErrorString.E5002)
+            onExceptionalProblem(TAG)
             return
         }
+
         if (data.isDuplicated) {
             signupCheck["username"] = false
             binding.tvUsernameConfirm.text = "사용 불가능한 아이디입니다."
@@ -335,7 +335,7 @@ class FragmentSignup : BaseFragment() {
     }
 
     fun onSendVerificationCodeSuccess() {
-        hideProgressBar()
+        super.onSuccess()
 
         if (::job.isInitialized && job.isActive)
             job.cancel()
@@ -345,12 +345,13 @@ class FragmentSignup : BaseFragment() {
     }
 
     fun onCheckVerificationCodeSuccess(data: VerificationResponse?) {
-        hideProgressBar()
+        super.onSuccess()
 
         if (data == null) {
-            showToast(ErrorString.E5002)
+            onExceptionalProblem(TAG)
             return
         }
+
         remainingSeconds = 0
         verifiedEmail = verifyingEmail
         signupCheck["email"] = true
@@ -360,7 +361,7 @@ class FragmentSignup : BaseFragment() {
     }
 
     fun onSignupSuccess() {
-        hideProgressBar()
+        super.onSuccess()
 
         showToast("회원가입에 성공하였습니다.")
         navigateToLogin()
