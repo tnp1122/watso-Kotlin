@@ -12,4 +12,8 @@ class AuthRepository(context: Context) {
     suspend fun login(loginForm: LoginForm): Response<ResponseBody> {
         return api.login(loginForm)
     }
+
+    suspend fun logout(): Response<ResponseBody> {
+        return api.logout()
+    }
 }

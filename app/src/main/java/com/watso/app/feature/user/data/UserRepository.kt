@@ -72,11 +72,11 @@ class UserRepository(context: Context) {
         return api.sendFcmToken(fcmToken)
     }
 
-    suspend fun getNotificationSubscribe(): Response<NotificationSubscribe> {
-        return api.getNotificationSubscribe()
+    suspend fun getNotificationStatus(): Response<NotificationSubscription> {
+        return api.getNotificationStatus()
     }
 
-    suspend fun setNotificationSubscribe(notificationSubscribe: NotificationSubscribe): Response<ResponseBody> {
-        return api.setNotificationSubScribe(notificationSubscribe)
+    suspend fun updateNotificationStatus(notificationSubscribe: NotificationSubscription): Response<ResponseBody> {
+        return api.updateNotificationStatus(notificationSubscribe)
     }
 }

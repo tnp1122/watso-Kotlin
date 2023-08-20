@@ -76,7 +76,7 @@ data class FcmToken(
     val fcmToken: String
 )
 
-data class NotificationSubscribe(
+data class NotificationSubscription(
     @SerializedName("allow")
     val status: Boolean
 )

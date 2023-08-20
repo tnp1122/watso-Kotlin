@@ -22,7 +22,7 @@ import com.watso.app.data.model.BaseResponse
 import com.watso.app.databinding.FragBaedalBinding
 import com.watso.app.feature.baedal.data.BaedalPost
 import com.watso.app.feature.baedal.ui.viewModel.baedalList.BaedalListViewModel
-import com.watso.app.util.ErrorString
+import com.watso.app.feature.user.ui.view.FragmentAccount
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -125,7 +125,7 @@ class FragmentBaedalList :BaseFragment() {
     }
 
     fun setClickListeners() {
-        binding.btnOption.setOnClickListener { AC.logOut() }
+        binding.btnOption.setOnClickListener { navigateTo(FragmentAccount()) }
 //        binding.btnOption.setOnClickListener { navigateTo(FragmentAccount()) }
 //        binding.btnBaedalHistory.setOnClickListener { navigateTo(FragmentBaedalHistory()) }
 //        binding.btnBaedalPostAdd.setOnClickListener { navigateTo(FragmentBaedalAdd()) }

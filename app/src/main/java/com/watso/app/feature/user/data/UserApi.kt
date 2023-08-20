@@ -87,11 +87,11 @@ interface UserApi {
     ): Response<ResponseBody>
 
     @GET("$DEVICE/notification")        // 알림 허용상태 조회
-    suspend fun getNotificationSubscribe(
-    ): Response<NotificationSubscribe>
+    suspend fun getNotificationStatus(
+    ): Response<NotificationSubscription>
 
     @PATCH("$DEVICE/notification")      // 알림 허용상태 변경
-    suspend fun setNotificationSubScribe(
-        @Body jsonparams: NotificationSubscribe
+    suspend fun updateNotificationStatus(
+        @Body jsonparams: NotificationSubscription
     ): Response<ResponseBody>
 }
