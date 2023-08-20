@@ -113,17 +113,15 @@ class InitAppManager(
             return
         }
 
-        setUserInfo(data)
+        saveUserInfo(data)
 
         checkFcmToken()
     }
 
-    private fun setUserInfo(userInfo: UserInfo) {
+    private fun saveUserInfo(userInfo: UserInfo) {
         val METHOD = "[setUserInfo] "
         Log.d("$TAG $METHOD", userInfo.toString())
-        AC.setString("name", userInfo.name)
-        AC.setString("nickname", userInfo.nickname)
-        AC.setString("accountNum", userInfo.accountNumber)
+        SessionManager.saveUserInfo(mActivity, userInfo)
     }
 
     private fun checkFcmToken() {
