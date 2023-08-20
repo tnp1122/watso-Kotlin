@@ -16,7 +16,7 @@ class RequestPermission(val activity: MainActivity) {
     private val TAG = "권한 요청"
     val PERMISSIONS_REQUEST_NOTIFICATION = 123
 
-    interface NotiPermitChangedListener { fun onNotiPermitChanged(permission: String) }
+    interface NotiPermitChangedListener { fun onNotiPermitChanged() }
     private var notiPermitChangedListener: NotiPermitChangedListener? = null
     fun setNotiPermitChangedListener(listener: NotiPermitChangedListener) {
         this.notiPermitChangedListener = listener
@@ -64,14 +64,16 @@ class RequestPermission(val activity: MainActivity) {
         val builder = AlertDialog.Builder(activity)
         builder.setTitle("알림 권한 요청")
             .setMessage("게시글 관련 안내사항이나 댓글소식을 알림으로 전달받기 위해서 권한을 요청합니다.")
-            .setPositiveButton("알림 설정", DialogInterface.OnClickListener { dialog, id ->
+            .setPositiveButton("알림 설정", DialogInterface.OnClickListener { _, _ ->
                 getNotiPermission()
                 setPrefs("true")
             })
-            .setNegativeButton("거절", DialogInterface.OnClickListener { dialog, id ->
-                notiPermitChangedListener?.onNotiPermitChanged("")
-                setPrefs("ignore")
+            .setNegativeButton("거절", DialogInterface.OnClickListener { _, _ ->
+                notiPermitChangedListener?.onNotiPermitChanged()
             })
+            .setOnCancelListener { _ ->
+                notiPermitChangedListener?.onNotiPermitChanged()
+            }
         builder.show()
     }
 
