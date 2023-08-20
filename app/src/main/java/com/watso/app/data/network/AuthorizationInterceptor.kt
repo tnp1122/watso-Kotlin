@@ -43,7 +43,7 @@ class AuthorizationInterceptor(private val context: Context): Interceptor {
             }
             if (isExpired) {
                 Log.d("어세스 토큰 갱신 시도 access", accessToken)
-                requestRefreshToken(chain, response)
+                return requestRefreshToken(chain, response)
             }
         }
         return response
