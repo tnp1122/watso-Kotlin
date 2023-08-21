@@ -43,6 +43,7 @@ open class BaseFragment: Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        hideSoftInput()
     }
 
     fun onLoading() {
@@ -88,6 +89,14 @@ open class BaseFragment: Fragment() {
 
     fun navigateTo(fragment: Fragment, arguments: Map<String, String>? = null, popBackStack:Int = -1, fragIndex:Int = 1) {
         AC.navigateTo(fragment, arguments, popBackStack, fragIndex)
+    }
+
+    fun showSoftInput(view: View) {
+        AC.showSoftInput(view)
+    }
+
+    fun hideSoftInput() {
+        AC.hideSoftInput()
     }
 
     fun showProgressBar() {
