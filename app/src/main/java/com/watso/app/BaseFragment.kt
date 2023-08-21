@@ -62,8 +62,8 @@ open class BaseFragment: Fragment() {
             return
         }
 
-        Log.e(TAG, "onError: $msg")
-        showToast(msg)
+        Log.e(TAG, "onError: $msg ($errMsg)")
+        showToast("$msg ($errMsg)")
     }
 
     fun onException(msg: String, exMsg: String?, TAG: String) {
