@@ -63,7 +63,7 @@ data class UpdatePasswordForm(
 
 /** 찾기 */
 
-data class ForgotPasswordForm(
+data class TempPasswordForm(
     val username: String,
     val email: String
 )

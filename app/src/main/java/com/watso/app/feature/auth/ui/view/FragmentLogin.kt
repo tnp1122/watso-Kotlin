@@ -9,8 +9,8 @@ import com.watso.app.BaseFragment
 import com.watso.app.data.model.BaseResponse
 import com.watso.app.databinding.FragLoginBinding
 import com.watso.app.feature.auth.ui.viewModel.LoginViewModel
+import com.watso.app.feature.user.ui.view.FragmentFindAccount
 import com.watso.app.feature.user.ui.view.FragmentSignup
-import com.watso.app.fragmentAccount.FragmentFindAccount
 import okhttp3.Headers
 
 private const val LOGIN_FAIL = "로그인 실패"

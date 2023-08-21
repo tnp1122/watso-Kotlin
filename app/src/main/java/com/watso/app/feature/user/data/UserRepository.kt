@@ -57,7 +57,7 @@ class UserRepository(context: Context) {
 
     /** 찾기 */
 
-    suspend fun issueTempPassword(forgotPasswordForm: ForgotPasswordForm): Response<ResponseBody> {
+    suspend fun issueTempPassword(forgotPasswordForm: TempPasswordForm): Response<ResponseBody> {
         return api.issueTempPassword(forgotPasswordForm)
     }
 

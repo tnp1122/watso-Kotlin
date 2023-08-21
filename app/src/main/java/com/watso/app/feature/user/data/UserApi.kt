@@ -71,7 +71,7 @@ interface UserApi {
 
     @POST("$FORGOT/password")           // 비밀번호 찾기
     suspend fun issueTempPassword(
-        @Body jsonparams: ForgotPasswordForm
+        @Body jsonparams: TempPasswordForm
     ): Response<ResponseBody>
 
     @GET("$FORGOT/username")            // 계정 찾기
