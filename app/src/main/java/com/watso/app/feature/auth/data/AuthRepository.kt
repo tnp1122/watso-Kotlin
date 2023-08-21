@@ -16,4 +16,8 @@ class AuthRepository(context: Context) {
     suspend fun logout(): Response<ResponseBody> {
         return api.logout()
     }
+
+    suspend fun refreshToken(): Response<ResponseBody> {
+        return api.refreshToken()
+    }
 }

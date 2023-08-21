@@ -9,6 +9,7 @@ import com.watso.app.feature.auth.ui.view.FragmentLogin
 import com.watso.app.feature.baedal.ui.view.baedalList.FragmentBaedalList
 import com.watso.app.feature.user.data.FcmToken
 import com.watso.app.feature.user.data.UserInfo
+import com.watso.app.feature.user.ui.view.FragmentAccount
 
 private const val GET_USER_INFO_FAIL = "유저정보 갱신 실패"
 private const val SEND_FCM_TOKEN_FAIL = "디바이스 토큰 갱신 실패"
@@ -21,6 +22,7 @@ class InitAppManager(
     private val AC = ActivityController(mActivity)
     private val TAG = "[InitApp]"
     private var tempFcmToken = ""
+    private var isInitializing = true
 
     init {
         setObservers()
@@ -98,7 +100,8 @@ class InitAppManager(
         showToast("$msg: $exMsg")
     }
 
-    fun getUserInfo() {
+    fun getUserInfo(isInitializing: Boolean = true) {
+        this.isInitializing = isInitializing
         initAppViewModel.getUserInfo()
     }
 
@@ -138,11 +141,11 @@ class InitAppManager(
 
                 if (token != previous) {
                     sendFcmToken(token)
-                } else navigateToBaedalList()
+                } else completeGetUserInfo()
             } else {
                 hideProgressBar()
                 Log.e("$TAG $METHOD", "Error retrieving Firebase Token")
-                navigateToBaedalList()
+                completeGetUserInfo()
             }
         }
     }
@@ -160,19 +163,23 @@ class InitAppManager(
         val token = tempFcmToken
         Log.d("[$TAG][$METHOD]", "token: $token")
         AC.setString("previousFcmToken", token)
-        navigateToBaedalList()
+        completeGetUserInfo()
     }
 
-    private fun navigateTo(fragment: Fragment) {
-        AC.navigateTo(fragment, popBackStack = 0)
+    private fun navigateTo(fragment: Fragment, popBackStack: Int = 0) {
+        AC.navigateTo(fragment, popBackStack = popBackStack)
     }
 
     private fun navigateToHome() {
         navigateTo(FragmentHome())
     }
 
-    private fun navigateToBaedalList() {
-        navigateTo(FragmentBaedalList())
+    private fun completeGetUserInfo() {
+        if (isInitializing) {
+            navigateTo(FragmentBaedalList())
+        } else {
+            navigateTo(FragmentAccount(), 2)
+        }
     }
 
     private fun navigateToLogin() {

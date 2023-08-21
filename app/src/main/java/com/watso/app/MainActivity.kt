@@ -103,8 +103,8 @@ class MainActivity : AppCompatActivity() {
         SessionManager.saveRefreshToken(this, tokens[1])
     }
 
-    fun getUserInfo() {
-        initAppManager.getUserInfo()
+    fun getUserInfo(isInitializing: Boolean = true) {
+        initAppManager.getUserInfo(isInitializing)
     }
 
     /**

@@ -22,12 +22,21 @@ class AuthorizationInterceptor(private val context: Context): Interceptor {
         "${BASE_URL}user/forgot/password",
 //        "${BASE_URL}user/profile/account-number",
 //        "${BASE_URL}user/profile/nickname",
-//        "${BASE_URL}user/profile/password"
+        "${BASE_URL}user/profile/password"
     )
 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         val accessToken = SessionManager.getAccessToken(context)
+        val refreshToken = SessionManager.getRefreshToken(context)
+        val targetUrl = chain.request().url.toString()
+
+        if (targetUrl == BASE_URL + "auth/refresh") {
+            val tokenAddedRequest = chain.request().newBuilder()
+                .addHeader("Authorization", refreshToken)
+                .build()
+            return chain.proceed(tokenAddedRequest)
+        }
 
         val tokenAddedRequest = chain.request().newBuilder()
             .addHeader("Authorization", accessToken)
@@ -36,7 +45,6 @@ class AuthorizationInterceptor(private val context: Context): Interceptor {
 
         if (response.code == 401) {
             var isExpired = true
-            val targetUrl = chain.request().url.toString()
 
             EXCEPTION_URL.forEach {
                 if (targetUrl.contains(it)) isExpired = false
@@ -64,7 +72,7 @@ class AuthorizationInterceptor(private val context: Context): Interceptor {
 
         val refreshResponse = chain.proceed(refreshRequest)
 
-        if (refreshResponse.code== 200) {
+        if (refreshResponse.code == 200) {
             val token = refreshResponse.headers["Authentication"].toString()
             SessionManager.saveAccessToken(context, token)
 

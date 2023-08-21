@@ -79,9 +79,9 @@ class FragmentAccount :BaseFragment() {
     fun setClickListeners() {
         binding.btnPrevious.setOnClickListener { onBackPressed() }
 
-//        binding.lytPassword.setOnClickListener { navigateTo(FragmentUpdateAccount(), mapOf("target" to "password")) }
-//        binding.lytNickname.setOnClickListener { navigateTo(FragmentUpdateAccount(), mapOf("target" to "nickname")) }
-//        binding.lytAccountNum.setOnClickListener { navigateTo(FragmentUpdateAccount(), mapOf("target" to "accountNum")) }
+        binding.lytPassword.setOnClickListener { navigateTo(FragmentUpdateAccount(), mapOf("target" to "password")) }
+        binding.lytNickname.setOnClickListener { navigateTo(FragmentUpdateAccount(), mapOf("target" to "nickname")) }
+        binding.lytAccountNum.setOnClickListener { navigateTo(FragmentUpdateAccount(), mapOf("target" to "accountNum")) }
 
         binding.swNotification.setOnCheckedChangeListener { _, isChecked -> changeNotificationEnabled(isChecked)}
 
