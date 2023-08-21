@@ -24,8 +24,8 @@ import com.watso.app.feature.user.data.SignupForm
 import com.watso.app.feature.user.data.VerificationResponse
 import com.watso.app.feature.user.ui.viewModel.SignupViewModel
 
-private const val NICKNAME_CHECK_FAIL = "사용할 수 없는 닉네임입니다."
-private const val USERNAME_CHECK_FAIL = "사용할 수 없는 아이디입니다."
+private const val NICKNAME_CHECK_FAIL = "닉네임 중복체크 중 오류가 발생했습니다."
+private const val USERNAME_CHECK_FAIL = "아이디 중복체크 중 오류가 발생했습니다."
 private const val SEND_CODE_FAIL = "인증코드를 전송하지 못했습니다."
 private const val CHECK_CODE_FAIL = "인증코드를 확인하지 못했습니다."
 private const val SIGNUP_FAIL = "회원가입에 실패했습니다."
