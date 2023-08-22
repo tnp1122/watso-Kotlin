@@ -21,7 +21,7 @@ import com.watso.app.MainActivity
 import com.watso.app.data.model.BaseResponse
 import com.watso.app.databinding.FragBaedalBinding
 import com.watso.app.feature.baedal.data.BaedalPost
-import com.watso.app.feature.baedal.ui.viewModel.baedalList.BaedalListViewModel
+import com.watso.app.feature.baedal.ui.viewModel.BaedalListViewModel
 import com.watso.app.feature.user.ui.view.FragmentAccount
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter

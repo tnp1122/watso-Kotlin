@@ -1,4 +1,4 @@
-package com.watso.app.feature.baedal.ui.viewModel.baedalList
+package com.watso.app.feature.baedal.ui.viewModel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
