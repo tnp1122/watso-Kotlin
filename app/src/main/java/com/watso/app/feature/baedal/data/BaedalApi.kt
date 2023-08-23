@@ -1,5 +1,6 @@
 package com.watso.app.feature.baedal.data
 
+import com.watso.app.feature.user.data.AccountNumber
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.*
@@ -33,29 +34,29 @@ interface BaedalApi {
     /** 게시글  */
 
     @GET(POST)                   // 게시글 목록 조회
-    suspend fun getBaedalPostList(
+    suspend fun getPostList(
         @Query("option") option: String
-    ): Response<List<BaedalPost>>
+    ): Response<List<PostContent>>
 
     @POST(POST)                  // 게시글 등록
-    suspend fun baedalPosting(
-        @Body jsonparams: BaedalPosting
-    ): Response<BaedalPostingResponse>
+    suspend fun makePost(
+        @Body jsonparams: MakePostForm
+    ): Response<MakePostResponse>
 
     @GET("${POST}/{post_id}")         // 게시글 조회
-    suspend fun getBaedalPost(
+    suspend fun getPostContent(
         @Path("post_id") postId: String
-    ): Response<BaedalPost>
+    ): Response<PostContent>
 
     @DELETE("${POST}/{post_id}")     // 게시글 삭제
-    suspend fun deleteBaedalPost(
+    suspend fun deletePost(
         @Path("post_id") postId: String
     ): Response<ResponseBody>
 
     @PATCH("${POST}/{post_id}")      // 게시글 수정
-    suspend fun updateBaedalPost(
+    suspend fun updatePost(
         @Path("post_id") postId: String,
-        @Body jsonparams: BaedalPostUpdate
+        @Body jsonparams: UpdatePostForm
     ): Response<ResponseBody>
 
     @GET("${POST}/{post_id}/account-number")    // 대표자 계좌번호 조회
@@ -64,15 +65,15 @@ interface BaedalApi {
     ): Response<AccountNumber>
 
     @PATCH("${POST}/{post_id}/fee")     // 배달비 수정
-    suspend fun updateBaedalFee(
+    suspend fun updateFee(
         @Path("post_id") postId: String,
         @Body jsonparams: Fee
     ): Response<ResponseBody>
 
     @PATCH("${POST}/{post_id}/status")    // 게시글 상태 변경
-    suspend fun setBaedalStatus(
+    suspend fun updatePostStatus(
         @Path("post_id") postId: String,
-        @Body jsonparams: BaedalStatus
+        @Body jsonparams: PostStatus
     ): Response<ResponseBody>
 
 
@@ -84,7 +85,7 @@ interface BaedalApi {
     ): Response<AllOrderInfo>
 
     @POST("${POST}/{post_id}/orders")       // 주문 작성
-    suspend fun postOrders(
+    suspend fun makeOrders(
         @Path("post_id") postId: String,
         @Body jsonparams: UserOrder
     ): Response<ResponseBody>
@@ -102,27 +103,27 @@ interface BaedalApi {
 
     /** 댓글 */
 
-//    @POST("${POST}/{post_id}/comments")         // 댓글 작성
-//    suspend fun postComment(
-//        @Path("post_id") postId: String,
-//        @Body jsonparams: PostComment
-//    ): Response<ResponseBody>
-//
-//    @GET("${POST}/{post_id}/comments")          // 댓글 조회
-//    suspend fun getComments(
-//        @Path("post_id") postId: String
-//    ): Response<GetComments>
-//
-//    @POST("${POST}/{post_id}/comments/{comment_id}")    // 대댓글 작성
-//    suspend fun postSubComment(
-//        @Path("post_id") postId: String,
-//        @Path("comment_id") commentId: String,
-//        @Body jsonparams: PostComment
-//    ): Response<ResponseBody>
-//
-//    @DELETE("${POST}/{post_id}/comments/{comment_id}")  // 댓글 삭제
-//    suspend fun deleteComment(
-//        @Path("post_id") postId: String,
-//        @Path("comment_id") commentId: String
-//    ): Response<ResponseBody>
+    @POST("${POST}/{post_id}/comments")         // 댓글 작성
+    suspend fun makeComment(
+        @Path("post_id") postId: String,
+        @Body jsonparams: MakeCommentForm
+    ): Response<ResponseBody>
+
+    @POST("${POST}/{post_id}/comments/{comment_id}")    // 대댓글 작성
+    suspend fun makeSubComment(
+        @Path("post_id") postId: String,
+        @Path("comment_id") commentId: String,
+        @Body jsonparams: MakeCommentForm
+    ): Response<ResponseBody>
+
+    @GET("${POST}/{post_id}/comments")          // 댓글 조회
+    suspend fun getComments(
+        @Path("post_id") postId: String
+    ): Response<GetCommentsResponse>
+
+    @DELETE("${POST}/{post_id}/comments/{comment_id}")  // 댓글 삭제
+    suspend fun deleteComment(
+        @Path("post_id") postId: String,
+        @Path("comment_id") commentId: String
+    ): Response<ResponseBody>
 }

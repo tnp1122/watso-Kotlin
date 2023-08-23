@@ -2,6 +2,7 @@ package com.watso.app.feature.baedal.data
 
 import android.content.Context
 import com.watso.app.data.network.ApiClient
+import com.watso.app.feature.user.data.AccountNumber
 import okhttp3.ResponseBody
 import retrofit2.Response
 
@@ -27,39 +28,39 @@ class BaedalRepository(context: Context) {
 
     /** 게시글  */
 
-    suspend fun getBaedalPostList(option: String): Response<List<BaedalPost>> {
-        return api.getBaedalPostList(option)
+    suspend fun getPostList(option: String): Response<List<PostContent>> {
+        return api.getPostList(option)
     }
 
-    suspend fun baedalPosting(baedalPosting: BaedalPosting): Response<BaedalPostingResponse> {
-        return api.baedalPosting(baedalPosting)
+    suspend fun makePost(makePostForm: MakePostForm): Response<MakePostResponse> {
+        return api.makePost(makePostForm)
     }
 
-    suspend fun getBaedalPost(postId: String): Response<BaedalPost> {
-        return api.getBaedalPost(postId)
+    suspend fun getPostContent(postId: String): Response<PostContent> {
+        return api.getPostContent(postId)
     }
 
-    suspend fun deleteBaedalPost(postId: String): Response<ResponseBody> {
-        return api.deleteBaedalPost(postId)
+    suspend fun deletePost(postId: String): Response<ResponseBody> {
+        return api.deletePost(postId)
     }
 
-    suspend fun updateBaedalPost(
+    suspend fun updatePost(
         postId: String,
-        baedalPostUpdate: BaedalPostUpdate
+        updatePostForm: UpdatePostForm
     ): Response<ResponseBody> {
-        return api.updateBaedalPost(postId, baedalPostUpdate)
+        return api.updatePost(postId, updatePostForm)
     }
 
     suspend fun getAccountNumber(postId: String): Response<AccountNumber> {
         return api.getAccountNumber(postId)
     }
 
-    suspend fun updateBaedalFee(postId: String, fee: Fee): Response<ResponseBody> {
-        return api.updateBaedalFee(postId, fee)
+    suspend fun updateFee(postId: String, fee: Fee): Response<ResponseBody> {
+        return api.updateFee(postId, fee)
     }
 
-    suspend fun setBaedalStatus(postId: String, status: BaedalStatus): Response<ResponseBody> {
-        return api.setBaedalStatus(postId, status)
+    suspend fun updatePostStatus(postId: String, status: PostStatus): Response<ResponseBody> {
+        return api.updatePostStatus(postId, status)
     }
 
 
@@ -69,8 +70,8 @@ class BaedalRepository(context: Context) {
         return api.getAllOrders(postId)
     }
 
-    suspend fun postOrders(postId: String, userOrder: UserOrder): Response<ResponseBody> {
-        return api.postOrders(postId, userOrder)
+    suspend fun makeOrders(postId: String, userOrder: UserOrder): Response<ResponseBody> {
+        return api.makeOrders(postId, userOrder)
     }
 
     suspend fun getMyOrders(postId: String): Response<MyOrderInfo> {
@@ -84,26 +85,26 @@ class BaedalRepository(context: Context) {
 
     /** 댓글 */
 
-//    suspend fun postComment(postId: String, comment: PostComment): Response<ResponseBody> {
-//        return api.postComment(postId, comment)
-//    }
-//
-//    suspend fun getComments(postId: String): Response<GetComments> {
-//        return api.getcomments(postId)
-//    }
-//
-//    suspend fun postSubComment(
-//        postId: String,
-//        commentId: String,
-//        comment: PostComment,
-//    ): Response<ResponseBody> {
-//        return api.postSubComment(postId, commentId, comment)
-//    }
-//
-//    suspend fun deleteComment(
-//        postId: String,
-//        commentId: String
-//    ): Response<ResponseBody> {
-//        return api.deleteComment(postId, commentId)
-//    }
+    suspend fun makeComment(postId: String, comment: MakeCommentForm): Response<ResponseBody> {
+        return api.makeComment(postId, comment)
+    }
+
+    suspend fun makeSubComment(
+        postId: String,
+        commentId: String,
+        comment: MakeCommentForm
+    ): Response<ResponseBody> {
+        return api.makeSubComment(postId, commentId, comment)
+    }
+
+    suspend fun getComments(postId: String): Response<GetCommentsResponse> {
+        return api.getComments(postId)
+    }
+
+    suspend fun deleteComment(
+        postId: String,
+        commentId: String
+    ): Response<ResponseBody> {
+        return api.deleteComment(postId, commentId)
+    }
 }

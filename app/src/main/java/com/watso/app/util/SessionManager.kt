@@ -46,6 +46,10 @@ object SessionManager {
         return UserInfo(_id, name, username, nickname, accountNumber, email)
     }
 
+    fun getUserId(context: Context): Long {
+        return getUserInfo(context)._id
+    }
+
     private fun saveString(context: Context, key: String, value: String) {
         val prefs = PreferenceUtil(context)
         prefs.setString(key, value)

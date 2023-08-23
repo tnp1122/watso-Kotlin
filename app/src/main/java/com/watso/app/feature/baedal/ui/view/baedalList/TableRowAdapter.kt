@@ -7,16 +7,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.watso.app.R
 import com.watso.app.databinding.LytBaedalTableRowBinding
-import com.watso.app.feature.baedal.data.BaedalPost
+import com.watso.app.feature.baedal.data.PostContent
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
 class TableRowAdapter(val context: AppCompatActivity) : RecyclerView.Adapter<TableRowAdapter.CustomViewHolder>() {
 
-    private val tableRows = mutableListOf<BaedalPost>()
+    private val tableRows = mutableListOf<PostContent>()
 
-    fun setData(tableData: List<BaedalPost>) {
+    fun setData(tableData: List<PostContent>) {
         tableRows.clear()
         tableRows.addAll(tableData)
         notifyDataSetChanged()
@@ -47,7 +47,7 @@ class TableRowAdapter(val context: AppCompatActivity) : RecyclerView.Adapter<Tab
     }
 
     inner class CustomViewHolder(var binding: LytBaedalTableRowBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(post: BaedalPost) {
+        fun bind(post: PostContent) {
             val currentMember = post.users.size.toString()
             val maxMember = post.maxMember
             val orderTime = LocalDateTime.parse(post.orderTime, DateTimeFormatter.ISO_DATE_TIME)

@@ -5,16 +5,16 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.watso.app.data.model.BaseResponse
-import com.watso.app.feature.baedal.data.BaedalPost
 import com.watso.app.feature.baedal.data.BaedalRepository
+import com.watso.app.feature.baedal.data.PostContent
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
 class BaedalListViewModel(application: Application): AndroidViewModel(application) {
 
     private val baedalRepo = BaedalRepository(application)
-    val getJoinedPostListResponse: MutableLiveData<BaseResponse<List<BaedalPost>>> = MutableLiveData()
-    val getJoinablePostListResponse: MutableLiveData<BaseResponse<List<BaedalPost>>> = MutableLiveData()
+    val getJoinedPostListResponse: MutableLiveData<BaseResponse<List<PostContent>>> = MutableLiveData()
+    val getJoinablePostListResponse: MutableLiveData<BaseResponse<List<PostContent>>> = MutableLiveData()
 
     private fun <T> makeRequest(
         liveData: MutableLiveData<BaseResponse<T>>,
@@ -37,10 +37,10 @@ class BaedalListViewModel(application: Application): AndroidViewModel(applicatio
     }
 
     fun getJoinedPostList() {
-        makeRequest(getJoinedPostListResponse) { baedalRepo.getBaedalPostList("joined") }
+        makeRequest(getJoinedPostListResponse) { baedalRepo.getPostList("joined") }
     }
 
     fun getJoinablePostList() {
-        makeRequest(getJoinedPostListResponse) { baedalRepo.getBaedalPostList("joinable") }
+        makeRequest(getJoinedPostListResponse) { baedalRepo.getPostList("joinable") }
     }
 }

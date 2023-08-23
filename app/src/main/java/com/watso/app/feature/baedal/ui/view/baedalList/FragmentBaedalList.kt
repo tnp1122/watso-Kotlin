@@ -19,9 +19,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.watso.app.BaseFragment
 import com.watso.app.data.model.BaseResponse
 import com.watso.app.databinding.FragBaedalBinding
-import com.watso.app.feature.baedal.data.BaedalPost
+import com.watso.app.feature.baedal.data.PostContent
+import com.watso.app.feature.baedal.ui.view.baedalPost.FragmentBaedalPost
 import com.watso.app.feature.baedal.ui.viewModel.BaedalListViewModel
 import com.watso.app.feature.user.ui.view.FragmentAccount
+import com.watso.app.fragmentBaedal.BaedalAdd.FragmentBaedalAdd
+import com.watso.app.fragmentBaedal.BaedalHistory.FragmentBaedalHistory
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -34,7 +37,7 @@ class FragmentBaedalList :BaseFragment() {
 
     lateinit var joinedAdapter: TableAdapter
     lateinit var joinableAdapter: TableAdapter
-    var joinablePosts = listOf<BaedalPost>()
+    var joinablePosts = listOf<PostContent>()
 
     var mBinding: FragBaedalBinding? = null
     val binding get() = mBinding!!
@@ -69,10 +72,9 @@ class FragmentBaedalList :BaseFragment() {
     }
 
     fun checkIntent() {
-        val mActivity = activity as MainActivity
         val postId = mActivity.intent.getStringExtra("post_id")
         Log.d("[$TAG][checkIntent]", "postId: $postId")
-//        postId?.run { navigateTo(FragmentBaedalPost(), mapOf("postId" to postId)) }
+        postId?.run { navigateTo(FragmentBaedalPost(), mapOf("postId" to postId)) }
     }
 
     fun setFragmentResultListener() {
@@ -125,16 +127,15 @@ class FragmentBaedalList :BaseFragment() {
 
     fun setClickListeners() {
         binding.btnOption.setOnClickListener { navigateTo(FragmentAccount()) }
-//        binding.btnOption.setOnClickListener { navigateTo(FragmentAccount()) }
-//        binding.btnBaedalHistory.setOnClickListener { navigateTo(FragmentBaedalHistory()) }
-//        binding.btnBaedalPostAdd.setOnClickListener { navigateTo(FragmentBaedalAdd()) }
-//        binding.lytEmptyList.setOnClickListener { navigateTo(FragmentBaedalAdd()) }
+        binding.btnBaedalHistory.setOnClickListener { navigateTo(FragmentBaedalHistory()) }
+        binding.btnBaedalPostAdd.setOnClickListener { navigateTo(FragmentBaedalAdd()) }
+        binding.lytEmptyList.setOnClickListener { navigateTo(FragmentBaedalAdd()) }
 
         joinedAdapter.setPostClickListener(object: TableAdapter.OnPostClickListener {
             override fun onClick(postId: String) {
                 if (viewClickAble) {
                     viewClickAble = false
-//                    navigateTo(FragmentBaedalPost(), mapOf("postId" to postId))
+                    navigateTo(FragmentBaedalPost(), mapOf("postId" to postId))
                     Handler(Looper.getMainLooper()).postDelayed({ viewClickAble = true}, 500)
                 }
             }
@@ -143,7 +144,7 @@ class FragmentBaedalList :BaseFragment() {
             override fun onClick(postId: String) {
                 if (viewClickAble) {
                     viewClickAble = false
-//                    navigateTo(FragmentBaedalPost(), mapOf("postId" to postId))
+                    navigateTo(FragmentBaedalPost(), mapOf("postId" to postId))
                     Handler(Looper.getMainLooper()).postDelayed({ viewClickAble = true}, 500)
                 }
             }
@@ -175,7 +176,7 @@ class FragmentBaedalList :BaseFragment() {
         baedalListViewModel.getJoinablePostList()
     }
 
-    fun onGetPostListSuccess(postList: List<BaedalPost>?, isJoinableTable: Boolean = false) {
+    fun onGetPostListSuccess(postList: List<PostContent>?, isJoinableTable: Boolean = false) {
         super.onSuccess()
 
         if (postList == null) {
@@ -192,7 +193,7 @@ class FragmentBaedalList :BaseFragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun mappingPostDate(posts: List<BaedalPost>, isJoinableTable: Boolean = false) {
+    fun mappingPostDate(posts: List<PostContent>, isJoinableTable: Boolean = false) {
         val tables = mutableListOf<Table>()
         val dates = mutableListOf<LocalDate>()
         var tableIdx = -1
@@ -234,8 +235,8 @@ class FragmentBaedalList :BaseFragment() {
         } else binding.lytEmptyList.visibility = View.GONE
     }
 
-    fun getFilteredPosts(filterBy: String): List<BaedalPost> {
-        val filteredPosts = mutableListOf<BaedalPost>()
+    fun getFilteredPosts(filterBy: String): List<PostContent> {
+        val filteredPosts = mutableListOf<PostContent>()
         joinablePosts.forEach {
             if (it.place == filterBy) filteredPosts.add(it)
         }

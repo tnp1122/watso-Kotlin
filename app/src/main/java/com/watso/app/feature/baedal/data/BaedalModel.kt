@@ -68,7 +68,7 @@ data class Option(
 )
 
 /** 게시글 조회  */
-data class BaedalPost(
+data class PostContent(
     val _id: String,
     @SerializedName("user_id")
     val userId: Long,
@@ -87,7 +87,7 @@ data class BaedalPost(
 )
 
 /** 게시글 등록 */
-data class BaedalPosting(
+data class MakePostForm(
     @SerializedName("store_id")
     val storeId: String,
     @SerializedName("order_time")
@@ -100,13 +100,13 @@ data class BaedalPosting(
     var order: UserOrder?
 )
 
-data class BaedalPostingResponse(
+data class MakePostResponse(
     @SerializedName("post_id")
     val postId: String
 )
 
 /** 게시글 업데이트 */
-data class BaedalPostUpdate(
+data class UpdatePostForm(
     @SerializedName("order_time")
     val orderTime: String,
     val place: String,
@@ -116,17 +116,12 @@ data class BaedalPostUpdate(
     val maxMember: Int
 )
 
-data class AccountNumber(
-    @SerializedName("account_number")
-    val AccountNumber: String
-)
-
 data class Fee(
     val fee: Int
 )
 
 /** 게시글 상태 설정 */
-data class BaedalStatus(
+data class PostStatus(
     val status: String
 )
 
@@ -162,7 +157,7 @@ data class UserOrder(
 }
 
 /** 주문 등록 */
-data class PostOrder(
+data class MakeOrder(
     @SerializedName("order_lines")
     val orders: MutableList<Order>
 )
@@ -178,3 +173,26 @@ data class Order(
         price = tempPrice
     }
 }
+
+data class MakeCommentForm(
+    val content: String
+)
+
+data class Comment(
+    val _id: String,
+    @SerializedName("post_id")
+    val postId: String,
+    @SerializedName("create_at")
+    val createdAt: String,
+    @SerializedName("user_id")
+    val userId: Long,
+    val nickname: String,
+    val status: String,
+    val content: String,
+    @SerializedName("parent_id")
+    val parentId: String?
+)
+
+data class GetCommentsResponse(
+    val comments: MutableList<Comment>
+)

@@ -128,6 +128,10 @@ open class BaseFragment: Fragment() {
         AC.showToast(msg)
     }
 
+    fun showAlert(msg: String) {
+        AC.showAlert(msg)
+    }
+
     fun verifyInput(case: String, text: String): Boolean {
         val message = VerifyInput.verifyInput(case, text)
         return if (message == "") {
