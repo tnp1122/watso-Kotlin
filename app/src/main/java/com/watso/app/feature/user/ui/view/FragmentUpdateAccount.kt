@@ -22,11 +22,11 @@ import com.watso.app.feature.user.ui.viewModel.UpdateAccountViewModel
 import com.watso.app.util.SessionManager
 import okhttp3.Headers
 
-private const val REFRESH_TOKEN_FAIL = "리프래시 토큰 갱신 실패"
-private const val CHECK_NICKNAME_FAIL = "닉네임 중복체크 중 오류가 발생했습니다."
-private const val UPDATE_PASSWORD_FAIL = "비밀번호 변경 실패"
-private const val UPDATE_NICKNAME_FAIL = "닉네임 변경 실패"
-private const val UPDATE_ACCOUNT_NUMBER_FAIL = "계좌번호 변경 실패"
+private const val REFRESH_TOKEN = "리프래시 토큰 갱신"
+private const val CHECK_NICKNAME = "닉네임 중복검사"
+private const val UPDATE_PASSWORD = "비밀번호 변경"
+private const val UPDATE_NICKNAME = "닉네임 변경"
+private const val UPDATE_ACCOUNT_NUMBER = "계좌번호 변경"
 
 class FragmentUpdateAccount :BaseFragment() {
 
@@ -73,8 +73,8 @@ class FragmentUpdateAccount :BaseFragment() {
             when (it) {
                 is BaseResponse.Loading -> onLoading()
                 is BaseResponse.Success -> onRefreshTokenSuccess(it.data)
-                is BaseResponse.Error -> onError(REFRESH_TOKEN_FAIL, it.msg, TAG)
-                else -> onException(REFRESH_TOKEN_FAIL, it.toString(), TAG)
+                is BaseResponse.Error -> onError(TAG, REFRESH_TOKEN, it.errorBody, it.msg)
+                else -> onException(TAG, REFRESH_TOKEN, it.toString())
             }
         }
 
@@ -82,8 +82,8 @@ class FragmentUpdateAccount :BaseFragment() {
             when (it) {
                 is BaseResponse.Loading -> onLoading()
                 is BaseResponse.Success -> onCheckNicknameSuccess(it.data)
-                is BaseResponse.Error -> onError(CHECK_NICKNAME_FAIL, it.msg, TAG)
-                else -> onException(CHECK_NICKNAME_FAIL, it.toString(), TAG)
+                is BaseResponse.Error -> onError(TAG, CHECK_NICKNAME, it.errorBody, it.msg)
+                else -> onException(TAG, CHECK_NICKNAME, it.toString())
             }
         }
 
@@ -91,8 +91,8 @@ class FragmentUpdateAccount :BaseFragment() {
             when (it) {
                 is BaseResponse.Loading -> onLoading()
                 is BaseResponse.Success -> onUpdatePasswordSuccess()
-                is BaseResponse.Error -> onError(UPDATE_PASSWORD_FAIL, it.msg, TAG)
-                else -> onException(UPDATE_PASSWORD_FAIL, it.toString(), TAG)
+                is BaseResponse.Error -> onError(TAG, UPDATE_PASSWORD, it.errorBody, it.msg)
+                else -> onException(TAG, UPDATE_PASSWORD, it.toString())
             }
         }
 
@@ -100,8 +100,8 @@ class FragmentUpdateAccount :BaseFragment() {
             when (it) {
                 is BaseResponse.Loading -> onLoading()
                 is BaseResponse.Success -> onUpdateNicknameSuccess()
-                is BaseResponse.Error -> onError(UPDATE_NICKNAME_FAIL, it.msg, TAG)
-                else -> onException(UPDATE_NICKNAME_FAIL, it.toString(), TAG)
+                is BaseResponse.Error -> onError(TAG, UPDATE_NICKNAME, it.errorBody, it.msg)
+                else -> onException(TAG, UPDATE_NICKNAME, it.toString())
             }
         }
 
@@ -109,8 +109,8 @@ class FragmentUpdateAccount :BaseFragment() {
             when (it) {
                 is BaseResponse.Loading -> onLoading()
                 is BaseResponse.Success -> onUpdateAccountNumberSuccess()
-                is BaseResponse.Error -> onError(UPDATE_ACCOUNT_NUMBER_FAIL, it.msg, TAG)
-                else -> onException(UPDATE_ACCOUNT_NUMBER_FAIL, it.toString(), TAG)
+                is BaseResponse.Error -> onError(TAG, UPDATE_ACCOUNT_NUMBER, it.errorBody, it.msg)
+                else -> onException(TAG, UPDATE_ACCOUNT_NUMBER, it.toString())
             }
         }
     }
@@ -119,13 +119,13 @@ class FragmentUpdateAccount :BaseFragment() {
         super.onSuccess()
 
         if (headers == null) {
-            onExceptionalProblem(TAG)
+            onExceptionalProblem(TAG, REFRESH_TOKEN)
             return
         }
 
         val token = headers["Authentication"]
         if (token == null) {
-            onExceptionalProblem(TAG)
+            onExceptionalProblem(TAG, REFRESH_TOKEN)
             return
         }
 
@@ -137,7 +137,7 @@ class FragmentUpdateAccount :BaseFragment() {
         super.onSuccess()
 
         if (data == null) {
-            onExceptionalProblem(TAG)
+            onExceptionalProblem(TAG, CHECK_NICKNAME)
             return
         }
 

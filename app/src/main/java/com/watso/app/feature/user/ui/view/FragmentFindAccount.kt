@@ -14,8 +14,8 @@ import com.watso.app.databinding.FragFindAccountBinding
 import com.watso.app.feature.user.data.TempPasswordForm
 import com.watso.app.feature.user.ui.viewModel.FindAccountViewModel
 
-private const val FIND_USERNAME_FAIL = "아이디 찾기 도중 오류가 발생했습니다."
-private const val ISSUE_TEMP_PASSWORD_FAIL = "임시 비밀번호 발급 도중 오류가 발생했습니다."
+private const val FIND_USERNAME = "아이디 찾기"
+private const val ISSUE_TEMP_PASSWORD = "임시 비밀번호 발급"
 
 class FragmentFindAccount :BaseFragment() {
 
@@ -104,8 +104,8 @@ class FragmentFindAccount :BaseFragment() {
             when (it) {
                 is BaseResponse.Loading -> onLoading()
                 is BaseResponse.Success -> onFindUsernameSuccess()
-                is BaseResponse.Error -> onError(FIND_USERNAME_FAIL, it.msg, TAG)
-                else -> onException(FIND_USERNAME_FAIL, it.toString(), TAG)
+                is BaseResponse.Error -> onError(TAG, FIND_USERNAME, it.errorBody, it.msg)
+                else -> onException(TAG, FIND_USERNAME, it.toString())
             }
         }
 
@@ -113,8 +113,8 @@ class FragmentFindAccount :BaseFragment() {
             when (it) {
                 is BaseResponse.Loading -> onLoading()
                 is BaseResponse.Success -> onIssueTempPasswordSuccess()
-                is BaseResponse.Error -> onError(ISSUE_TEMP_PASSWORD_FAIL, it.msg, TAG)
-                else -> onException(ISSUE_TEMP_PASSWORD_FAIL, it.toString(), TAG)
+                is BaseResponse.Error -> onError(TAG, ISSUE_TEMP_PASSWORD, it.errorBody, it.msg)
+                else -> onException(TAG, ISSUE_TEMP_PASSWORD, it.toString())
             }
         }
     }

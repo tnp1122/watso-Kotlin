@@ -21,10 +21,10 @@ import com.watso.app.feature.user.data.UserInfo
 import com.watso.app.feature.user.ui.viewModel.AccountViewModel
 import com.watso.app.util.SessionManager
 
-private const val GET_NOTIFICATION_STATUS_FAIL = "알림 수신 여부 조회 실패"
-private const val UPDATE_NOTIFICATION_STATUS_FAIL = "알림 수신 여부 변경 실패"
-private const val DELETE_ACCOUNT_FAIL = "계정 삭제 실패"
-private const val LOGOUT_FAIL = "로그아웃 실패"
+private const val GET_NOTIFICATION_STATUS = "알림 수신 여부 조회"
+private const val UPDATE_NOTIFICATION_STATUS = "알림 수신 여부 변경"
+private const val DELETE_ACCOUNT = "계정 삭제"
+private const val LOGOUT = "로그아웃"
 
 class FragmentAccount :BaseFragment() {
 
@@ -116,8 +116,8 @@ class FragmentAccount :BaseFragment() {
             when (it) {
                 is BaseResponse.Loading -> onLoading()
                 is BaseResponse.Success -> onGetNotificationStatusSuccess(it.data)
-                is BaseResponse.Error -> onError(GET_NOTIFICATION_STATUS_FAIL, it.msg, TAG)
-                else -> onException(GET_NOTIFICATION_STATUS_FAIL, it.toString(), TAG)
+                is BaseResponse.Error -> onError(TAG, GET_NOTIFICATION_STATUS, it.errorBody, it.msg)
+                else -> onException(TAG, GET_NOTIFICATION_STATUS, it.toString())
             }
         }
 
@@ -125,8 +125,8 @@ class FragmentAccount :BaseFragment() {
             when (it) {
                 is BaseResponse.Loading -> onLoading()
                 is BaseResponse.Success -> onUpdateNotificationStatusSuccess()
-                is BaseResponse.Error -> onError(UPDATE_NOTIFICATION_STATUS_FAIL, it.msg, TAG)
-                else -> onException(UPDATE_NOTIFICATION_STATUS_FAIL, it.toString(), TAG)
+                is BaseResponse.Error -> onError(TAG, UPDATE_NOTIFICATION_STATUS, it.errorBody, it.msg)
+                else -> onException(TAG, UPDATE_NOTIFICATION_STATUS, it.toString())
             }
         }
 
@@ -134,8 +134,8 @@ class FragmentAccount :BaseFragment() {
             when (it) {
                 is BaseResponse.Loading -> onLoading()
                 is BaseResponse.Success -> onDeleteAccountSuccess()
-                is BaseResponse.Error -> onError(DELETE_ACCOUNT_FAIL, it.msg, TAG)
-                else -> onException(DELETE_ACCOUNT_FAIL, it.toString(), TAG)
+                is BaseResponse.Error -> onError(TAG, DELETE_ACCOUNT, it.errorBody, it.msg)
+                else -> onException(TAG, DELETE_ACCOUNT, it.toString())
             }
         }
 
@@ -143,8 +143,8 @@ class FragmentAccount :BaseFragment() {
             when (it) {
                 is BaseResponse.Loading -> onLoading()
                 is BaseResponse.Success -> onLogoutSuccess()
-                is BaseResponse.Error -> onError(LOGOUT_FAIL, it.msg, TAG)
-                else -> onException(LOGOUT_FAIL, it.toString(), TAG)
+                is BaseResponse.Error -> onError(TAG, LOGOUT, it.errorBody, it.msg)
+                else -> onException(TAG, LOGOUT, it.toString())
             }
         }
     }
@@ -153,7 +153,7 @@ class FragmentAccount :BaseFragment() {
         super.onSuccess()
 
         if (subscription == null) {
-            onExceptionalProblem(TAG)
+            onExceptionalProblem(TAG, GET_NOTIFICATION_STATUS)
             return
         }
 

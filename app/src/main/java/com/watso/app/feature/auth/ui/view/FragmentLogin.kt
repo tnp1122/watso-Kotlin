@@ -13,7 +13,7 @@ import com.watso.app.feature.user.ui.view.FragmentFindAccount
 import com.watso.app.feature.user.ui.view.FragmentSignup
 import okhttp3.Headers
 
-private const val LOGIN_FAIL = "로그인 실패"
+private const val LOGIN = "로그인"
 
 class FragmentLogin: BaseFragment() {
 
@@ -42,8 +42,8 @@ class FragmentLogin: BaseFragment() {
             when (it) {
                 is BaseResponse.Loading -> onLoading()
                 is BaseResponse.Success -> onSuccess(it.data)
-                is BaseResponse.Error -> onError(LOGIN_FAIL, it.msg, TAG)
-                else -> onException(LOGIN_FAIL, it.toString(), TAG)
+                is BaseResponse.Error -> onError(TAG, LOGIN, it.errorBody, it.msg)
+                else -> onException(TAG, LOGIN, it.toString())
             }
         }
     }
@@ -52,7 +52,7 @@ class FragmentLogin: BaseFragment() {
         super.onSuccess()
 
         if (headers == null) {
-            onExceptionalProblem(TAG)
+            onExceptionalProblem(TAG, LOGIN)
             return
         }
 

@@ -9,10 +9,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.google.gson.Gson
 import com.watso.app.util.ActivityController
 import com.watso.app.util.ErrorString
 import com.watso.app.util.VerifyInput
+import okhttp3.ResponseBody
 import java.lang.RuntimeException
+
+data class ErrorResponse(val msg: String, val code: Int)
 
 open class BaseFragment: Fragment() {
 
@@ -54,33 +58,46 @@ open class BaseFragment: Fragment() {
         hideProgressBar()
     }
 
-    fun onError(msg: String, errMsg: String?, TAG: String) {
+    /**
+     * TAG: tag
+     * method: 메서드 명
+     * errorBody: response body
+     * msg: http message
+     */
+    fun onError(TAG: String, method: String, errorBody: ResponseBody?, msg: String?) {
         hideProgressBar()
 
-        if (errMsg == null) {
-            showToast("$msg: ${ErrorString.E5001}")
+        if (errorBody != null) {
+            val gson = Gson()
+            val errorBodyObject = gson.fromJson(errorBody.string(), ErrorResponse::class.java)
+            Log.e(TAG,"$method ${ErrorString.FAIL} (${errorBodyObject.msg} - ${errorBodyObject.code})")
+            showToast(errorBodyObject.msg)
             return
         }
 
-        Log.e(TAG, "onError: $msg ($errMsg)")
-        showToast("$msg ($errMsg)")
-    }
-
-    fun onException(msg: String, exMsg: String?, TAG: String) {
-        hideProgressBar()
-
-        if (exMsg == null) {
-            showToast("$msg: ${ErrorString.E5000}")
+        if (msg == null) {
+            val errMsg = "$method ${ErrorString.FAIL}: ${ErrorString.E5001}"
+            Log.e(TAG, errMsg)
+            showToast(errMsg)
             return
         }
 
-        Log.e(TAG, "$msg: $exMsg")
-        showToast("$msg: $exMsg")
+        val errMsg = "$method ${ErrorString.FAIL} [$msg]"
+        Log.e(TAG, errMsg)
+        showToast(errMsg)
     }
 
-    fun onExceptionalProblem(TAG: String) {
-        Log.e(TAG, ErrorString.E5002)
-        showToast(ErrorString.E5002)
+    fun onException(TAG: String, method: String, exMsg: String) {
+        hideProgressBar()
+
+        Log.e(TAG, "$method ${ErrorString.FAIL}, $exMsg")
+        showToast("$method ${ErrorString.FAIL}")
+    }
+
+    fun onExceptionalProblem(TAG: String, method: String) {
+        val errMsg = "$method ${ErrorString.FAIL}: ${ErrorString.E5002}"
+        Log.e(TAG, errMsg)
+        showToast(errMsg)
     }
 
     fun onBackPressed() {

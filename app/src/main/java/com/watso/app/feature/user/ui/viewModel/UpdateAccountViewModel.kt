@@ -34,10 +34,11 @@ class UpdateAccountViewModel(application: Application): AndroidViewModel(applica
                 if (response.isSuccessful) {
                     liveData.value = BaseResponse.Success(response.body())
                 } else {
-                    liveData.value = BaseResponse.Error(response.message())
+                    val errorBody = response.errorBody()
+                    liveData.value = BaseResponse.Error(errorBody, response.message())
                 }
             } catch (ex: Exception) {
-                liveData.value = BaseResponse.Error(ex.message)
+                liveData.value = BaseResponse.Exception(ex.message)
             }
         }
     }
@@ -50,10 +51,11 @@ class UpdateAccountViewModel(application: Application): AndroidViewModel(applica
                 if (response.isSuccessful) {
                     refreshTokenHeaders.value = BaseResponse.Success(response.headers())
                 } else {
-                    refreshTokenHeaders.value = BaseResponse.Error(response.message())
+                    val errorBody = response.errorBody()
+                    refreshTokenHeaders.value = BaseResponse.Error(errorBody, response.message())
                 }
             } catch (ex: Exception) {
-                refreshTokenHeaders.value = BaseResponse.Error(ex.message)
+                refreshTokenHeaders.value = BaseResponse.Exception(ex.message)
             }
         }
     }

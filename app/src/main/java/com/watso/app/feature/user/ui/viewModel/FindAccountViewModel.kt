@@ -28,10 +28,11 @@ class FindAccountViewModel(application: Application): AndroidViewModel(applicati
                 if (response.isSuccessful) {
                     liveData.value = BaseResponse.Success(response.body())
                 } else {
-                    liveData.value = BaseResponse.Error(response.message())
+                    val errorBody = response.errorBody()
+                    liveData.value = BaseResponse.Error(errorBody, response.message())
                 }
             } catch (ex: Exception) {
-                liveData.value = BaseResponse.Error(ex.message)
+                liveData.value = BaseResponse.Exception(ex.message)
             }
         }
     }

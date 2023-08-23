@@ -56,9 +56,9 @@ class FragmentAccount :Fragment() {
 
         AC = ActivityController(activity as MainActivity)
         RP = RequestPermission(activity as MainActivity)
-        RP.setNotiPermitChangedListener(object: RequestPermission.NotiPermitChangedListener {
-            override fun onNotiPermitChanged(permission: String) { bindSWNotificationPermission() }
-        })
+//        RP.setNotiPermitChangedListener(object: RequestPermission.NotiPermitChangedListener {
+//            override fun onNotiPermitChanged(permission: String) { bindSWNotificationPermission() }
+//        })
 
 //        getActivity()?.getSupportFragmentManager()?.setFragmentResultListener("getUserInfo", this) {
 //                requestKey, bundle -> getUserInfo()

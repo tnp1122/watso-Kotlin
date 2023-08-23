@@ -17,7 +17,6 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.watso.app.BaseFragment
-import com.watso.app.MainActivity
 import com.watso.app.data.model.BaseResponse
 import com.watso.app.databinding.FragBaedalBinding
 import com.watso.app.feature.baedal.data.BaedalPost
@@ -26,8 +25,8 @@ import com.watso.app.feature.user.ui.view.FragmentAccount
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-private const val GET_JOINED_POST_FAIL = "참가한 포스트 조회 실패"
-private const val GET_JOINABLE_POST_FAIL = "참가가능한 포스트 조회 실패"
+private const val GET_JOINED_POST = "참가한 포스트 조회"
+private const val GET_JOINABLE_POST = "참가 가능한 포스트 조회"
 
 class FragmentBaedalList :BaseFragment() {
 
@@ -156,8 +155,8 @@ class FragmentBaedalList :BaseFragment() {
             when (it) {
                 is BaseResponse.Loading -> onLoading()
                 is BaseResponse.Success -> onGetPostListSuccess(it.data)
-                is BaseResponse.Error -> onError(GET_JOINED_POST_FAIL, it.msg, TAG)
-                else -> onException(GET_JOINED_POST_FAIL, it.toString(), TAG)
+                is BaseResponse.Error -> onError(TAG, GET_JOINED_POST, it.errorBody, it.msg)
+                else -> onException(TAG, GET_JOINED_POST, it.toString())
             }
         }
 
@@ -165,8 +164,8 @@ class FragmentBaedalList :BaseFragment() {
             when (it) {
                 is BaseResponse.Loading -> onLoading()
                 is BaseResponse.Success -> onGetPostListSuccess(it.data, true)
-                is BaseResponse.Error -> onError(GET_JOINABLE_POST_FAIL, it.msg, TAG)
-                else -> onException(GET_JOINABLE_POST_FAIL, it.toString(), TAG)
+                is BaseResponse.Error -> onError(TAG, GET_JOINABLE_POST, it.errorBody, it.msg)
+                else -> onException(TAG, GET_JOINABLE_POST, it.toString())
             }
         }
     }
@@ -180,7 +179,8 @@ class FragmentBaedalList :BaseFragment() {
         super.onSuccess()
 
         if (postList == null) {
-            onExceptionalProblem(TAG)
+            if (isJoinableTable) onExceptionalProblem(TAG, GET_JOINABLE_POST)
+            else onExceptionalProblem(TAG, GET_JOINED_POST)
             return
         }
 

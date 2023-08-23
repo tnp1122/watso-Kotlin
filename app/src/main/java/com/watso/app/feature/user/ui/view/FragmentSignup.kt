@@ -24,11 +24,11 @@ import com.watso.app.feature.user.data.SignupForm
 import com.watso.app.feature.user.data.VerificationResponse
 import com.watso.app.feature.user.ui.viewModel.SignupViewModel
 
-private const val CHECK_NICKNAME_FAIL = "닉네임 중복체크 중 오류가 발생했습니다."
-private const val CHECK_USERNAME_FAIL = "아이디 중복체크 중 오류가 발생했습니다."
-private const val SEND_CODE_FAIL = "인증코드를 전송하지 못했습니다."
-private const val CHECK_CODE_FAIL = "인증코드를 확인하지 못했습니다."
-private const val SIGNUP_FAIL = "회원가입에 실패했습니다."
+private const val CHECK_NICKNAME = "닉네임 중복검사"
+private const val CHECK_USERNAME = "아이디 중복검사"
+private const val SEND_CODE = "인증코드 전송"
+private const val CHECK_CODE = "인증코드 확인"
+private const val SIGNUP = "회원가입"
 
 class FragmentSignup : BaseFragment() {
 
@@ -128,8 +128,8 @@ class FragmentSignup : BaseFragment() {
             when (it) {
                 is BaseResponse.Loading -> onLoading()
                 is BaseResponse.Success -> onCheckNicknameSuccess(verifiyingNickname, it.data)
-                is BaseResponse.Error -> onError(CHECK_NICKNAME_FAIL, it.msg, TAG)
-                else -> onException(CHECK_NICKNAME_FAIL, it.toString(), TAG)
+                is BaseResponse.Error -> onError(TAG, CHECK_NICKNAME, it.errorBody, it.msg)
+                else -> onException(TAG, CHECK_NICKNAME, it.toString())
             }
         }
     }
@@ -175,8 +175,8 @@ class FragmentSignup : BaseFragment() {
             when (it) {
                 is BaseResponse.Loading -> onLoading()
                 is BaseResponse.Success -> onCheckUsernameSuccess(verifiyingUsername, it.data)
-                is BaseResponse.Error -> onError(CHECK_USERNAME_FAIL, it.msg, TAG)
-                else -> onException(CHECK_USERNAME_FAIL, it.toString(), TAG)
+                is BaseResponse.Error -> onError(TAG, CHECK_USERNAME, it.errorBody, it.msg)
+                else -> onException(TAG, CHECK_USERNAME, it.toString())
             }
         }
     }
@@ -251,8 +251,8 @@ class FragmentSignup : BaseFragment() {
             when (it) {
                 is BaseResponse.Loading -> onLoading()
                 is BaseResponse.Success -> onSendVerificationCodeSuccess()
-                is BaseResponse.Error -> onError(SEND_CODE_FAIL, it.msg, TAG)
-                else -> onException(SEND_CODE_FAIL, it.toString(), TAG)
+                is BaseResponse.Error -> onError(TAG, SEND_CODE, it.errorBody, it.msg)
+                else -> onException(TAG, SEND_CODE, it.toString())
             }
         }
 
@@ -260,8 +260,8 @@ class FragmentSignup : BaseFragment() {
             when (it) {
                 is BaseResponse.Loading -> onLoading()
                 is BaseResponse.Success -> onCheckVerificationCodeSuccess(it.data)
-                is BaseResponse.Error -> onError(CHECK_CODE_FAIL, it.msg, TAG)
-                else -> onException(CHECK_CODE_FAIL, it.toString(), TAG)
+                is BaseResponse.Error -> onError(TAG, CHECK_CODE, it.errorBody, it.msg)
+                else -> onException(TAG, CHECK_CODE, it.toString())
             }
         }
     }
@@ -286,8 +286,8 @@ class FragmentSignup : BaseFragment() {
             when (it) {
                 is BaseResponse.Loading -> onLoading()
                 is BaseResponse.Success -> onSignupSuccess()
-                is BaseResponse.Error -> onError(SIGNUP_FAIL, it.msg, TAG)
-                else -> onException(SIGNUP_FAIL, it.toString(), TAG)
+                is BaseResponse.Error -> onError(TAG, SIGNUP, it.errorBody, it.msg)
+                else -> onException(TAG, SIGNUP, it.toString())
             }
         }
     }
@@ -296,7 +296,7 @@ class FragmentSignup : BaseFragment() {
         super.onSuccess()
 
         if (data == null) {
-            onExceptionalProblem(TAG)
+            onExceptionalProblem(TAG, CHECK_NICKNAME)
             return
         }
 
@@ -317,7 +317,7 @@ class FragmentSignup : BaseFragment() {
         super.onSuccess()
 
         if (data == null) {
-            onExceptionalProblem(TAG)
+            onExceptionalProblem(TAG, CHECK_USERNAME)
             return
         }
 
@@ -348,7 +348,7 @@ class FragmentSignup : BaseFragment() {
         super.onSuccess()
 
         if (data == null) {
-            onExceptionalProblem(TAG)
+            onExceptionalProblem(TAG, CHECK_CODE)
             return
         }
 

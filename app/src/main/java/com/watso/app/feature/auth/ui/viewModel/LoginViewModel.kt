@@ -22,13 +22,14 @@ class LoginViewModel(application: Application): AndroidViewModel(application) {
             try {
                 val loginForm = LoginForm (username = username, password = password)
                 val response = authRepo.login(loginForm)
-                if (response.code() == 200) {
+                if (response.isSuccessful) {
                     loginResponseHeaders.value = BaseResponse.Success(response.headers())
                 } else {
-                    loginResponseHeaders.value = BaseResponse.Error(response.message())
+                    val errorBody = response.errorBody()
+                    loginResponseHeaders.value = BaseResponse.Error(errorBody, response.message())
                 }
             } catch (ex: Exception) {
-                loginResponseHeaders.value = BaseResponse.Error(ex.message)
+                loginResponseHeaders.value = BaseResponse.Exception(ex.message)
             }
         }
     }
