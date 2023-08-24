@@ -29,7 +29,6 @@ private const val LOGOUT = "로그아웃"
 class FragmentAccount :BaseFragment() {
 
     lateinit var RP: RequestPermission
-    lateinit var fragmentContext: Context
     lateinit var userInfo: UserInfo
 
     var mBinding: FragAccountBinding? = null
@@ -38,11 +37,6 @@ class FragmentAccount :BaseFragment() {
     val accountViewModel by viewModels<AccountViewModel>()
 
     var notificationSwitchBefore = false
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        fragmentContext = context
-    }
 
     override fun onResume() {
         super.onResume()

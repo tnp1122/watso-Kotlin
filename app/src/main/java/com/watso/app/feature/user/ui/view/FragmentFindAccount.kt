@@ -19,8 +19,6 @@ private const val ISSUE_TEMP_PASSWORD = "임시 비밀번호 발급"
 
 class FragmentFindAccount :BaseFragment() {
 
-    lateinit var fragmentContext: Context
-
     var mBinding: FragFindAccountBinding? = null
     val binding get() = mBinding!!
     val TAG = "[FragFindAccount]"
@@ -28,11 +26,6 @@ class FragmentFindAccount :BaseFragment() {
 
     var forgot = "username"
     var isSendAble = true       // 중복 클릭 방지 flag
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        fragmentContext = context
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mBinding = FragFindAccountBinding.inflate(inflater, container, false)

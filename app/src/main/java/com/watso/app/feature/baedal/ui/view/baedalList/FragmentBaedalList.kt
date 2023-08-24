@@ -33,7 +33,6 @@ private const val GET_JOINABLE_POST = "참가 가능한 포스트 조회"
 
 class FragmentBaedalList :BaseFragment() {
 
-    lateinit var fragmentContext: Context
 
     lateinit var joinedAdapter: TableAdapter
     lateinit var joinableAdapter: TableAdapter
@@ -50,7 +49,6 @@ class FragmentBaedalList :BaseFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        fragmentContext = context
         checkIntent()
     }
 

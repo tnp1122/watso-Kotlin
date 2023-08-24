@@ -40,8 +40,6 @@ private const val UPDATE_POST = "게시글 수정"
 
 class FragmentBaedalAdd :BaseFragment(), View.OnTouchListener {
 
-    lateinit var fragmentContext: Context
-
     var mBinding: FragBaedalAddBinding? = null
     val binding get() = mBinding!!
     val TAG = "[FragBaedalAdd]"
@@ -69,11 +67,6 @@ class FragmentBaedalAdd :BaseFragment(), View.OnTouchListener {
     var storeFees = mutableListOf<Int>()
     var selectedIdx = 0
     var selectedStore: Store? = null
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        fragmentContext = context
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

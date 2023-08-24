@@ -32,7 +32,6 @@ private const val SIGNUP = "회원가입"
 
 class FragmentSignup : BaseFragment() {
 
-    lateinit var fragmentContext: Context
     lateinit var job: Job
 
     var mBinding: FragSignupBinding? = null
@@ -58,11 +57,6 @@ class FragmentSignup : BaseFragment() {
     var verifiedEmail = ""
     var authToken = ""
     var bankName = ""
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        fragmentContext = context
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         mBinding = FragSignupBinding.inflate(layoutInflater)

@@ -22,6 +22,7 @@ open class BaseFragment: Fragment() {
 
     lateinit var AC: ActivityController
     lateinit var mActivity: MainActivity
+    lateinit var fragmentContext: Context
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +40,7 @@ open class BaseFragment: Fragment() {
         super.onAttach(context)
         if (context is MainActivity) {
             this.mActivity = context
+            fragmentContext = context
             AC = ActivityController(mActivity)
         } else {
             throw RuntimeException("$context must be MainActivity")

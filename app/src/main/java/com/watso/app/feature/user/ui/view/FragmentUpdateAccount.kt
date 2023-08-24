@@ -30,8 +30,6 @@ private const val UPDATE_ACCOUNT_NUMBER = "계좌번호 변경"
 
 class FragmentUpdateAccount :BaseFragment() {
 
-    lateinit var fragmentContext: Context
-
     var mBinding: FragUpdateAccountBinding? = null
     val binding get() = mBinding!!
     val TAG = "[FragUpdateAccount]"
@@ -40,11 +38,6 @@ class FragmentUpdateAccount :BaseFragment() {
     var target = ""
     var checkedNickname = ""
     var checkedPassword = ""
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        fragmentContext = context
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

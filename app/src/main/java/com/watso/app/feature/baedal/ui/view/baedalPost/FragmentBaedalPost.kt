@@ -48,8 +48,6 @@ private const val GET_COMMENTS = "댓글 조회"
 
 class FragmentBaedalPost :BaseFragment() {
 
-    lateinit var fragmentContext: Context
-
     var mBinding: FragBaedalPostBinding? = null
     val binding get() = mBinding!!
     val TAG = "[FragBaedalPost]"
@@ -81,7 +79,6 @@ class FragmentBaedalPost :BaseFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        fragmentContext = context
         userId = SessionManager.getUserId(mActivity)
         checkIntent()
     }
