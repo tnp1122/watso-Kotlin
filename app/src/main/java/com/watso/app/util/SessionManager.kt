@@ -50,6 +50,14 @@ object SessionManager {
         return getUserInfo(context)._id
     }
 
+    fun getAccountNumber(context: Context): String {
+        return getUserInfo(context).accountNumber
+    }
+
+    fun getName(context: Context): String {
+        return getUserInfo(context).name
+    }
+
     private fun saveString(context: Context, key: String, value: String) {
         val prefs = PreferenceUtil(context)
         prefs.setString(key, value)

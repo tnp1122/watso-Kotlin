@@ -20,10 +20,10 @@ import com.watso.app.BaseFragment
 import com.watso.app.data.model.BaseResponse
 import com.watso.app.databinding.FragBaedalBinding
 import com.watso.app.feature.baedal.data.PostContent
+import com.watso.app.feature.baedal.ui.view.baedalAdd.FragmentBaedalAdd
 import com.watso.app.feature.baedal.ui.view.baedalPost.FragmentBaedalPost
 import com.watso.app.feature.baedal.ui.viewModel.BaedalListViewModel
 import com.watso.app.feature.user.ui.view.FragmentAccount
-import com.watso.app.fragmentBaedal.BaedalAdd.FragmentBaedalAdd
 import com.watso.app.fragmentBaedal.BaedalHistory.FragmentBaedalHistory
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
