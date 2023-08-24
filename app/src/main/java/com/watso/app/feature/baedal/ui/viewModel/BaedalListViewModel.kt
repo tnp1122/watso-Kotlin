@@ -41,6 +41,6 @@ class BaedalListViewModel(application: Application): AndroidViewModel(applicatio
     }
 
     fun getJoinablePostList() {
-        makeRequest(getJoinedPostListResponse) { baedalRepo.getPostList("joinable") }
+        makeRequest(getJoinablePostListResponse) { baedalRepo.getPostList("joinable") }
     }
 }
