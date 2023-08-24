@@ -21,8 +21,8 @@ class BaedalRepository(context: Context) {
         return api.getStoreDetail(storeId)
     }
 
-    suspend fun getMenuInfo(storeId: String, menuId: String): Response<Menu> {
-        return api.getMenuInfo(storeId, menuId)
+    suspend fun getMenuDetail(storeId: String, menuId: String): Response<MenuDetail> {
+        return api.getMenuDetail(storeId, menuId)
     }
 
 

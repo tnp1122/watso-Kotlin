@@ -1,39 +1,34 @@
-package com.watso.app.fragmentBaedal.BaedalOpt
+package com.watso.app.feature.baedal.ui.view.baedalOption
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
-import com.watso.app.API.*
-import com.watso.app.API.DataModels.ErrorResponse
-import com.watso.app.ActivityController
-import com.watso.app.MainActivity
+import com.watso.app.BaseFragment
+import com.watso.app.data.model.BaseResponse
 import com.watso.app.databinding.FragBaedalOptBinding
+import com.watso.app.feature.baedal.data.*
+import com.watso.app.feature.baedal.ui.viewModel.BaedalOptionViewModel
 import com.watso.app.fragmentBaedal.BaedalConfirm.FragmentBaedalConfirm
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.lang.Exception
 import java.text.DecimalFormat
 
-class FragmentBaedalOpt :Fragment() {
-    lateinit var AC: ActivityController
-    lateinit var fragmentContext: Context
+private const val GET_MENU_DETAIL = "메뉴 상세정보 조회"
 
-    lateinit var storeInfo: StoreInfo
-    lateinit var menuInfo: Menu                   // 메뉴 정보. 현재화면 구성에 사용
+class FragmentBaedalOpt :BaseFragment() {
+
+    lateinit var storeDetail: StoreDetail
+    lateinit var menuDetail: MenuDetail                   // 메뉴 정보. 현재화면 구성에 사용
     lateinit var adapter: BaedalOptGroupAdapter
 
     var mBinding: FragBaedalOptBinding? = null
     val binding get() = mBinding!!
-    val TAG="FragBaedalOpt"
-    val api= API.create()
+    val TAG="[FragBaedalOpt]"
+    val baedalOptionViewModel by viewModels<BaedalOptionViewModel> ()
+
     val gson = Gson()
     val dec = DecimalFormat("#,###")
 
@@ -50,51 +45,38 @@ class FragmentBaedalOpt :Fragment() {
     var price = 0
     var viewClickAble = true
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        fragmentContext = context
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             postId = it.getString("postId")!!
             menuId = it.getString("menuId")!!
-            storeInfo = gson.fromJson(it.getString("storeInfo"), StoreInfo::class.java)
+            storeDetail = gson.fromJson(it.getString("storeDetail"), StoreDetail::class.java)
             orderCnt = it.getString("orderCnt")!!
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mBinding = FragBaedalOptBinding.inflate(inflater, container, false)
-        AC = ActivityController(activity as MainActivity)
 
-        setAdapter()
-        refreshView()
+        setAdapters()
+        setClickListeners()
+        setObservers()
+
+        getMenuDetail(storeDetail._id, menuId)
 
         return binding.root
     }
 
-    fun setAdapter() {
+    fun setAdapters() {
         binding.rvOptionGroup.layoutManager =
             LinearLayoutManager(fragmentContext, LinearLayoutManager.VERTICAL, false)
         binding.rvOptionGroup.setHasFixedSize(true)
-
         adapter = BaedalOptGroupAdapter(fragmentContext)
-
-        adapter.setGroupOptClickListener(object: BaedalOptGroupAdapter.OnGroupOptClickListener {
-            override fun onClick(groupId: String, isRadio: Boolean, optionId: String, isChecked: Boolean) {
-                setChecked(groupId, isRadio, optionId, isChecked)
-                setOrderPrice()
-            }
-        })
         binding.rvOptionGroup.adapter = adapter
     }
 
-    fun refreshView() {
+    fun setClickListeners() {
         binding.btnPrevious.setOnClickListener { onBackPressed() }
-
-        setRecyclerView()
 
         binding.btnSub.setOnClickListener {
             if (quantity > 1) {
@@ -102,6 +84,7 @@ class FragmentBaedalOpt :Fragment() {
                 setOrderPrice()
             }
         }
+
         binding.btnAdd.setOnClickListener {
             if (quantity < 10) {
                 binding.tvQuantity.text = "${(++quantity)}개"
@@ -133,53 +116,61 @@ class FragmentBaedalOpt :Fragment() {
                         options
                     ))}
                 }
-                val menu = Menu(menuInfo._id, menuInfo.name, menuInfo.price, groups)
+                val menu = MenuDetail(menuDetail._id, menuDetail.name, menuDetail.price, groups)
                 val order = Order(quantity, price, menu)
-                AC.setFrag(
+                navigateTo(
                     FragmentBaedalConfirm(), mapOf(
                         "postId" to postId,
                         "order" to gson.toJson(order),
-                        "storeInfo" to gson.toJson(storeInfo)
+                        "storeDetail" to gson.toJson(storeDetail)
                     ),
                     1
                 )
             }
         }
-    }
 
-    fun setRecyclerView() {
-        AC.showProgressBar()
-        api.getMenuInfo(storeInfo._id, menuId).enqueue(object : Callback<Menu> {
-            override fun onResponse(call: Call<Menu>, response: Response<Menu>) {
-                AC.hideProgressBar()
-                if (response.code() == 200) {
-                    menuInfo = response.body()!!
-                    binding.tvMenuName.text = menuInfo.name
-                    menuInfo.groups?.let{ adapter.setData(it) }
-                    val dec = DecimalFormat("#,###")
-                    binding.tvMenuPrice.text = "기본 가격 : ${dec.format(menuInfo.price)}원"
-                    setGroupOptionData()
-                    setOrderPrice()
-                } else {
-                    try {
-                        val errorBody = response.errorBody()?.string()
-                        val errorResponse = Gson().fromJson(errorBody, ErrorResponse::class.java)
-                        AC.makeToast(errorResponse.msg)
-                        Log.d("$TAG[getMenuInfo]", "${errorResponse.code}: ${errorResponse.msg}")
-                    } catch (e: Exception) { Log.e("$TAG[getMenuInfo]", e.toString())}
-                }
-            }
-
-            override fun onFailure(call: Call<Menu>, t: Throwable) {
-                AC.hideProgressBar()
-                Log.e("baedalOpt Fragment - getGroupOption", t.message.toString())
-                AC.makeToast("옵션정보를 불러오지 못 했습니다.\n다시 시도해 주세요.")
+        adapter.setGroupOptClickListener(object: BaedalOptGroupAdapter.OnGroupOptClickListener {
+            override fun onClick(groupId: String, isRadio: Boolean, optionId: String, isChecked: Boolean) {
+                setChecked(groupId, isRadio, optionId, isChecked)
+                setOrderPrice()
             }
         })
     }
 
+    fun setObservers() {
+        baedalOptionViewModel.getMenuDetailResponse.observe(mActivity) {
+            when (it) {
+                is BaseResponse.Loading -> onLoading()
+                is BaseResponse.Success -> onGetMenuDetailSuccess(it.data)
+                is BaseResponse.Error -> onError(TAG, GET_MENU_DETAIL, it.errorBody, it.msg)
+                else -> onException(TAG, GET_MENU_DETAIL, it.toString())
+            }
+        }
+    }
+
+    fun onGetMenuDetailSuccess(menuDetail: MenuDetail?) {
+        super.onSuccess()
+
+        if (menuDetail == null) {
+            onExceptionalProblem(TAG, GET_MENU_DETAIL)
+            return
+        }
+
+        this.menuDetail = menuDetail
+        menuDetail.groups?.let{ adapter.setData(it) }
+        val dec = DecimalFormat("#,###")
+        binding.tvMenuName.text = menuDetail.name
+        binding.tvMenuPrice.text = "기본 가격 : ${dec.format(menuDetail.price)}원"
+        setGroupOptionData()
+        setOrderPrice()
+    }
+
+    fun getMenuDetail(storeId: String, menuId: String) {
+        baedalOptionViewModel.getMenuDetail(storeId, menuId)
+    }
+
     fun setGroupOptionData() {
-        menuInfo.groups!!.forEach {
+        menuDetail.groups!!.forEach {
             val groupId = it._id
             val groupName = it.name
             var radioFirst = true
@@ -219,7 +210,7 @@ class FragmentBaedalOpt :Fragment() {
     }
 
     fun setOrderPrice() {
-        price = menuInfo.price
+        price = menuDetail.price
         optionChecked.forEach{
             val groupId = it.key
             it.value.forEach{
@@ -231,10 +222,10 @@ class FragmentBaedalOpt :Fragment() {
         binding.tvOrderPrice.text = orderPriceStr
     }
 
-    fun onBackPressed() {
+    override fun onBackPressed() {
         val bundle = bundleOf("orderCnt" to orderCnt.toInt())
-        getActivity()?.getSupportFragmentManager()?.setFragmentResult("addOrder", bundle)
+        activity?.supportFragmentManager?.setFragmentResult("addOrder", bundle)
 
-        AC.onBackPressed()
+        super.onBackPressed()
     }
 }

@@ -1,4 +1,4 @@
-package com.watso.app.fragmentBaedal.BaedalOpt
+package com.watso.app.feature.baedal.ui.view.baedalOption
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.watso.app.API.Group
-import com.watso.app.API.Option
 import com.watso.app.databinding.LytBaedalOptBinding
+import com.watso.app.feature.baedal.data.Group
+import com.watso.app.feature.baedal.data.Option
 import java.text.DecimalFormat
 
 class BaedalOptAdapter(val context: Context): RecyclerView.Adapter<BaedalOptAdapter.CustomViewHolder>() {

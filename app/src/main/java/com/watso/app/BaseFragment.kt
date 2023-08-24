@@ -52,6 +52,10 @@ open class BaseFragment: Fragment() {
         hideSoftInput()
     }
 
+    open fun onBackPressed() {
+        AC.onBackPressed()
+    }
+
     fun onLoading() {
         showProgressBar()
     }
@@ -100,10 +104,6 @@ open class BaseFragment: Fragment() {
         val errMsg = "$method ${ErrorString.FAIL}: ${ErrorString.E5002}"
         Log.e(TAG, errMsg)
         showToast(errMsg)
-    }
-
-    fun onBackPressed() {
-        AC.onBackPressed()
     }
 
     fun navigateTo(fragment: Fragment, arguments: Map<String, String>? = null, popBackStack:Int = -1, fragIndex:Int = 1) {

@@ -44,7 +44,7 @@ data class SectionMenu(
 )
 
 /** 메뉴 상세 정보(옵션) 조회 */
-data class Menu(
+data class MenuDetail(
     val _id: String,
     val name: String,
     val price: Int,
@@ -165,7 +165,7 @@ data class MakeOrder(
 data class Order(
     var quantity: Int,
     var price: Int?,
-    val menu: Menu
+    val menu: MenuDetail
 ) {
     fun setPrice(){
         var tempPrice = menu.price

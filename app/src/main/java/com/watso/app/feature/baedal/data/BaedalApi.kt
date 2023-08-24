@@ -25,10 +25,10 @@ interface BaedalApi {
     ): Response<StoreDetail>
 
     @GET("${STORE}/{store_id}/{menu_id}")       // 메뉴 상세정보(옵션) 조회
-    suspend fun getMenuInfo(
+    suspend fun getMenuDetail(
         @Path("store_id") storeId: String,
         @Path("menu_id") menuId: String
-    ): Response<Menu>
+    ): Response<MenuDetail>
 
 
     /** 게시글  */

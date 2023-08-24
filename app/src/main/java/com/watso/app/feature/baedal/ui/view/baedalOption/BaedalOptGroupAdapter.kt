@@ -1,4 +1,4 @@
-package com.watso.app.fragmentBaedal.BaedalOpt
+package com.watso.app.feature.baedal.ui.view.baedalOption
 
 import android.content.Context
 import android.os.Build
@@ -7,9 +7,8 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.watso.app.API.Group
 import com.watso.app.databinding.LytBaedalOptGroupBinding
-import java.lang.ref.WeakReference
+import com.watso.app.feature.baedal.data.Group
 
 
 class BaedalOptGroupAdapter(val context: Context) : RecyclerView.Adapter<BaedalOptGroupAdapter.CustomViewHolder>() {

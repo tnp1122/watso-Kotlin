@@ -14,9 +14,9 @@ import com.watso.app.BaseFragment
 import com.watso.app.data.model.BaseResponse
 import com.watso.app.databinding.FragBaedalMenuBinding
 import com.watso.app.feature.baedal.data.StoreDetail
+import com.watso.app.feature.baedal.ui.view.baedalOption.FragmentBaedalOpt
 import com.watso.app.feature.baedal.ui.viewModel.BaedalMenuViewModel
 //import com.watso.app.fragmentBaedal.BaedalConfirm.FragmentBaedalConfirm
-//import com.watso.app.fragmentBaedal.BaedalOpt.FragmentBaedalOpt
 import java.text.DecimalFormat
 
 private const val GET_STORE_DETAIL = "가게 상세정보 조회"
@@ -81,12 +81,13 @@ class FragmentBaedalMenu :BaseFragment() {
                 Log.d("메뉴 프래그먼트", "리스너")
                 if (viewClickAble) {
                     viewClickAble = false
-//                    navigateTo(FragmentBaedalOpt(), mapOf(
-//                        "postId" to postId,
-//                        "menuId" to menuId,
-//                        "storeInfo" to gson.toJson(storeDetail),
-//                        "orderCnt" to orderCnt.toString()
-//                    ))
+                    navigateTo(
+                        FragmentBaedalOpt(), mapOf(
+                        "postId" to postId,
+                        "menuId" to menuId,
+                        "storeDetail" to gson.toJson(storeDetail),
+                        "orderCnt" to orderCnt.toString()
+                    ))
                     Handler(Looper.getMainLooper()).postDelayed({ viewClickAble = true}, 500)
                 }
             }
