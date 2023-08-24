@@ -141,7 +141,7 @@ class FragmentBaedalMenu :BaseFragment() {
         val map = mutableMapOf(
             "postId" to postId,
             "order" to "",
-            "storeInfo" to gson.toJson(storeDetail)
+            "storeDetail" to gson.toJson(storeDetail)
         )
 //        navigateTo(FragmentBaedalConfirm(), map)
     }
