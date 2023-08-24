@@ -148,14 +148,6 @@ class FragmentBaedalPost :BaseFragment() {
             AC.copyToClipboard("대표자 계좌번호", binding.tvAccountNumber.text.toString())
         }
 
-//        binding.btnCancelReply.setOnClickListener { cancelReply() }
-//        binding.btnPostComment.setOnClickListener {
-//            val content = binding.etComment.text.toString()
-//            if (content.trim() != "") postComment(content, replyTo?._id)
-//        }
-    }
-
-    fun setLateOnClickListener() {
         binding.tvDelete.setOnClickListener {
             if (postStatus == "recruiting") {
                 val builder = AlertDialog.Builder(fragmentContext)
@@ -211,6 +203,12 @@ class FragmentBaedalPost :BaseFragment() {
                 "postJson" to gson.toJson(postContent),
                 "isMyOrder" to "false"
             ))
+        }
+
+        binding.btnCancelReply.setOnClickListener { cancelReply() }
+        binding.btnPostComment.setOnClickListener {
+            val content = binding.etComment.text.toString()
+            if (content.trim() != "") makeComment(content, replyTo?._id)
         }
     }
 
@@ -335,7 +333,6 @@ class FragmentBaedalPost :BaseFragment() {
         isMember = postContent.users.contains(userId)
         postStatus = postContent.status
         setPostUI()
-        setLateOnClickListener()
     }
 
     fun onGetAccountNumberSuccess(accountNumber: AccountNumber?) {
@@ -364,7 +361,6 @@ class FragmentBaedalPost :BaseFragment() {
                 "계좌 번호 조회 가능 시간이 끝났어요! 아직 배달비를 입금하지 않았다면 대표자와 댓글로 연락해보세요."
         } else { binding.lytAccountNumber.visibility = View.GONE }
     }
-
 
     fun onUpdatePostStatusSuccess() {
         super.onSuccess()
