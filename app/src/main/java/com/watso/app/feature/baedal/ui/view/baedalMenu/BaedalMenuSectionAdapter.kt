@@ -1,4 +1,4 @@
-package com.watso.app.fragmentBaedal.BaedalMenu
+package com.watso.app.feature.baedal.ui.view.baedalMenu
 
 import android.content.Context
 import android.os.Build
@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.watso.app.API.Section
 import com.watso.app.databinding.LytBaedalMenuSectionBinding
+import com.watso.app.feature.baedal.data.Section
 
 class BaedalMenuSectionAdapter(val context: Context) : RecyclerView.Adapter<BaedalMenuSectionAdapter.CustomViewHolder>() {
 

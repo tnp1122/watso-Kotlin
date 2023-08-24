@@ -17,7 +17,7 @@ data class Store(
 )
 
 /** 가게 상세 정보(메뉴) 조회  */
-data class StoreInfo(
+data class StoreDetail(
     val _id: String,
     val name: String,
     val fee: Int,

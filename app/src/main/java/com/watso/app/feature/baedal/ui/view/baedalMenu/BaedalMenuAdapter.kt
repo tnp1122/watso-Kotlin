@@ -1,4 +1,4 @@
-package com.watso.app.fragmentBaedal.BaedalMenu
+package com.watso.app.feature.baedal.ui.view.baedalMenu
 
 import android.os.Build
 import android.util.Log
@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
-import com.watso.app.API.SectionMenu
 import com.watso.app.databinding.LytBaedalMenuBinding
+import com.watso.app.feature.baedal.data.SectionMenu
 import java.text.DecimalFormat
 
 class BaedalMenuAdapter() : RecyclerView.Adapter<BaedalMenuAdapter.CustomViewHolder>() {

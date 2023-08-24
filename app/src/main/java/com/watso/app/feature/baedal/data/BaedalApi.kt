@@ -20,9 +20,9 @@ interface BaedalApi {
     suspend fun getStoreList():Response<List<Store>>
 
     @GET("${STORE}/{store_id}")                 // 가게 상세정보(메뉴) 조회
-    suspend fun getStoreInfo(
+    suspend fun getStoreDetail(
         @Path("store_id") storeId: String
-    ): Response<StoreInfo>
+    ): Response<StoreDetail>
 
     @GET("${STORE}/{store_id}/{menu_id}")       // 메뉴 상세정보(옵션) 조회
     suspend fun getMenuInfo(
