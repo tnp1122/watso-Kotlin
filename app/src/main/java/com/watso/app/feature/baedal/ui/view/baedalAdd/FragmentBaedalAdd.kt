@@ -19,15 +19,15 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import com.watso.app.R
 import com.watso.app.databinding.FragBaedalAddBinding
-import com.watso.app.fragmentBaedal.BaedalMenu.FragmentBaedalMenu
 import com.google.gson.Gson
 import com.watso.app.BaseFragment
 import com.watso.app.data.model.BaseResponse
 import com.watso.app.feature.baedal.data.MakePostForm
 import com.watso.app.feature.baedal.data.Store
 import com.watso.app.feature.baedal.data.UpdatePostForm
+import com.watso.app.feature.baedal.ui.view.baedalMenu.FragmentBaedalMenu
 import com.watso.app.feature.baedal.ui.viewModel.BaedalAddViewModel
-import com.watso.app.fragmentAccount.FragmentUpdateAccount
+import com.watso.app.feature.user.ui.view.FragmentUpdateAccount
 import com.watso.app.util.SessionManager
 import java.text.DecimalFormat
 import java.time.Duration

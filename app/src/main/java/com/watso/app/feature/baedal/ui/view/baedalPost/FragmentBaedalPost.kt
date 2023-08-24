@@ -14,7 +14,6 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
-import com.watso.app.API.DataModels.ErrorResponse
 import com.watso.app.BaseFragment
 import com.watso.app.MainActivity
 import com.watso.app.R
@@ -22,10 +21,10 @@ import com.watso.app.data.model.BaseResponse
 import com.watso.app.databinding.AlertdialogInputtextBinding
 import com.watso.app.databinding.FragBaedalPostBinding
 import com.watso.app.feature.baedal.data.*
+import com.watso.app.feature.baedal.ui.view.baedalAdd.FragmentBaedalAdd
 import com.watso.app.feature.baedal.ui.viewModel.BaedalPostViewModel
 import com.watso.app.feature.user.data.AccountNumber
-import com.watso.app.fragmentBaedal.BaedalAdd.FragmentBaedalAdd
-import com.watso.app.fragmentBaedal.BaedalMenu.FragmentBaedalMenu
+import com.watso.app.feature.baedal.ui.view.baedalMenu.FragmentBaedalMenu
 import com.watso.app.fragmentBaedal.BaedalOrders.FragmentBaedalOrders
 import com.watso.app.util.RequestPermission
 import com.watso.app.util.SessionManager

@@ -16,9 +16,9 @@ import com.watso.app.API.BaedalPost
 import com.watso.app.ActivityController
 import com.watso.app.MainActivity
 import com.watso.app.databinding.FragBaedalHistoryBinding
-import com.watso.app.fragmentBaedal.BaedalAdd.FragmentBaedalAdd
+//import com.watso.app.fragmentBaedal.BaedalAdd.FragmentBaedalAdd
 import com.watso.app.fragmentBaedal.BaedalOrders.FragmentBaedalOrders
-import com.watso.app.fragmentBaedal.BaedalPost.FragmentBaedalPost
+//import com.watso.app.fragmentBaedal.BaedalPost.FragmentBaedalPost
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -75,7 +75,7 @@ class FragmentBaedalHistory :Fragment() {
                         Log.d("히스토리", "빔")
                         binding.rvBaedalListJoined.visibility = View.GONE
                         binding.lytEmptyList.visibility = View.VISIBLE
-                        binding.lytEmptyList.setOnClickListener { AC.setFrag(FragmentBaedalAdd()) }
+//                        binding.lytEmptyList.setOnClickListener { AC.setFrag(FragmentBaedalAdd()) }
                     } else {
                         Log.d("히스토리", "안빔")
                         binding.rvBaedalListJoined.visibility = View.VISIBLE
@@ -114,7 +114,7 @@ class FragmentBaedalHistory :Fragment() {
         })
         adapter.setShowPostListener(object : HistoryAdapter.OnPostBtnListener {
             override fun showPost(postId: String) {
-                AC.setFrag(FragmentBaedalPost(), mapOf("postId" to postId))
+//                AC.setFrag(FragmentBaedalPost(), mapOf("postId" to postId))
             }
         })
     }

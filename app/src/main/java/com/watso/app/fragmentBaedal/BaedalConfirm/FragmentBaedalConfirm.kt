@@ -19,8 +19,8 @@ import com.google.gson.Gson
 import com.watso.app.API.DataModels.ErrorResponse
 import com.watso.app.ActivityController
 import com.watso.app.util.RequestPermission
-import com.watso.app.fragmentBaedal.Baedal.FragmentBaedal
-import com.watso.app.fragmentBaedal.BaedalPost.FragmentBaedalPost
+//import com.watso.app.fragmentBaedal.Baedal.FragmentBaedal
+//import com.watso.app.fragmentBaedal.BaedalPost.FragmentBaedalPost
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -223,10 +223,10 @@ class FragmentBaedalConfirm :Fragment() {
 
     fun goToPosting(isPostiong: Boolean=false) {
         RequestPermission(activity as MainActivity).requestNotificationPermission()
-        if (isPostiong)
-            AC.setFrag(FragmentBaedal(), popBackStack = 0)
-        else
-            AC.setFrag(FragmentBaedalPost(), mapOf("postId" to postId), 3)
+//        if (isPostiong)
+//            AC.setFrag(FragmentBaedal(), popBackStack = 0)
+//        else
+//            AC.setFrag(FragmentBaedalPost(), mapOf("postId" to postId), 3)
     }
 
     fun bindSetText() {
