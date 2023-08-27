@@ -12,8 +12,8 @@ import com.watso.app.BaseFragment
 import com.watso.app.data.model.BaseResponse
 import com.watso.app.databinding.FragBaedalOptBinding
 import com.watso.app.feature.baedal.data.*
+import com.watso.app.feature.baedal.ui.view.baedalConfirm.FragmentBaedalConfirm
 import com.watso.app.feature.baedal.ui.viewModel.BaedalOptionViewModel
-import com.watso.app.fragmentBaedal.BaedalConfirm.FragmentBaedalConfirm
 import java.text.DecimalFormat
 
 private const val GET_MENU_DETAIL = "메뉴 상세정보 조회"

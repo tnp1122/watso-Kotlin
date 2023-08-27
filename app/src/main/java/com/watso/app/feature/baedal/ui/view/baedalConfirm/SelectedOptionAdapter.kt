@@ -1,10 +1,10 @@
-package com.watso.app.fragmentBaedal.BaedalConfirm
+package com.watso.app.feature.baedal.ui.view.baedalConfirm
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.watso.app.API.Group
 import com.watso.app.databinding.LytBaedalConfirmBinding
+import com.watso.app.feature.baedal.data.Group
 import java.text.DecimalFormat
 
 class SelectedOptionAdapter(val groups: List<Group>) : RecyclerView.Adapter<SelectedOptionAdapter.CustomViewHolder>() {

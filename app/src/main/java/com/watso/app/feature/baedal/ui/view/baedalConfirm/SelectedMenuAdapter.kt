@@ -1,4 +1,4 @@
-package com.watso.app.fragmentBaedal.BaedalConfirm
+package com.watso.app.feature.baedal.ui.view.baedalConfirm
 
 import android.content.Context
 import android.os.Build
@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.watso.app.API.Order
 import com.watso.app.databinding.LytBaedalConfirmMenuBinding
+import com.watso.app.feature.baedal.data.Order
 import java.text.DecimalFormat
 
 class SelectedMenuAdapter(val context: Context, val orders: MutableList<Order>, val isRectifiable: Boolean=true, val isMyOrder: Boolean = false):

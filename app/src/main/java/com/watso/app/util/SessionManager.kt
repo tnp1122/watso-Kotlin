@@ -50,12 +50,16 @@ object SessionManager {
         return getUserInfo(context)._id
     }
 
-    fun getAccountNumber(context: Context): String {
-        return getUserInfo(context).accountNumber
-    }
-
     fun getName(context: Context): String {
         return getUserInfo(context).name
+    }
+
+    fun getNickname(context: Context): String {
+        return getUserInfo(context).nickname
+    }
+
+    fun getAccountNumber(context: Context): String {
+        return getUserInfo(context).accountNumber
     }
 
     private fun saveString(context: Context, key: String, value: String) {
