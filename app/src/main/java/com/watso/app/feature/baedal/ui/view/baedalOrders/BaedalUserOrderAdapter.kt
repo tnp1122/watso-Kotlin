@@ -1,4 +1,4 @@
-package com.watso.app.fragmentBaedal.BaedalOrders
+package com.watso.app.feature.baedal.ui.view.baedalOrders
 
 import android.content.Context
 import android.os.Build
@@ -9,9 +9,9 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.watso.app.API.UserOrder
 import com.watso.app.databinding.LytBaedalOrderUserBinding
-import com.watso.app.fragmentBaedal.BaedalConfirm.SelectedMenuAdapter
+import com.watso.app.feature.baedal.data.UserOrder
+import com.watso.app.feature.baedal.ui.view.baedalConfirm.SelectedMenuAdapter
 import java.text.DecimalFormat
 
 

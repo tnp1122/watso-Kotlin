@@ -25,7 +25,7 @@ import com.watso.app.feature.baedal.ui.view.baedalAdd.FragmentBaedalAdd
 import com.watso.app.feature.baedal.ui.viewModel.BaedalPostViewModel
 import com.watso.app.feature.user.data.AccountNumber
 import com.watso.app.feature.baedal.ui.view.baedalMenu.FragmentBaedalMenu
-import com.watso.app.fragmentBaedal.BaedalOrders.FragmentBaedalOrders
+import com.watso.app.feature.baedal.ui.view.baedalOrders.FragmentBaedalOrders
 import com.watso.app.util.RequestPermission
 import com.watso.app.util.SessionManager
 import okhttp3.ResponseBody
