@@ -24,7 +24,7 @@ import com.watso.app.feature.baedal.ui.view.baedalAdd.FragmentBaedalAdd
 import com.watso.app.feature.baedal.ui.view.baedalPost.FragmentBaedalPost
 import com.watso.app.feature.baedal.ui.viewModel.BaedalListViewModel
 import com.watso.app.feature.user.ui.view.FragmentAccount
-import com.watso.app.fragmentBaedal.BaedalHistory.FragmentBaedalHistory
+import com.watso.app.feature.baedal.ui.view.baedalHistory.FragmentBaedalHistory
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -40,7 +40,7 @@ class FragmentBaedalList :BaseFragment() {
 
     var mBinding: FragBaedalBinding? = null
     val binding get() = mBinding!!
-    val TAG = "[FragBaedal]"
+    val TAG = "[FragBaedalList]"
     val baedalListViewModel by viewModels<BaedalListViewModel> ()
 
     var viewClickAble = true    // 포스트 중복 클릭 방지

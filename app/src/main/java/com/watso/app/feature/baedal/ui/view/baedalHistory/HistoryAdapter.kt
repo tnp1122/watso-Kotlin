@@ -1,19 +1,27 @@
-package com.watso.app.fragmentBaedal.BaedalHistory
+package com.watso.app.feature.baedal.ui.view.baedalHistory
 
-import android.content.Context
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
-import com.watso.app.API.BaedalPost
 import com.watso.app.databinding.LytBaedalHistoryBinding
+import com.watso.app.feature.baedal.data.PostContent
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-class HistoryAdapter(val posts: MutableList<BaedalPost>) : RecyclerView.Adapter<HistoryAdapter.CustomViewHolder>() {
+class HistoryAdapter(val context: AppCompatActivity) : RecyclerView.Adapter<HistoryAdapter.CustomViewHolder>() {
+
+    private val posts = mutableListOf<PostContent>()
+
+    fun setData(postData: List<PostContent>) {
+        posts.clear()
+        posts.addAll(postData)
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
         val binding = LytBaedalHistoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -41,7 +49,7 @@ class HistoryAdapter(val posts: MutableList<BaedalPost>) : RecyclerView.Adapter<
 
     inner class CustomViewHolder(var binding: LytBaedalHistoryBinding) : RecyclerView.ViewHolder(binding.root) {
         @RequiresApi(Build.VERSION_CODES.O)
-        fun bind(post: BaedalPost) {
+        fun bind(post: PostContent) {
             binding.tvStatus.text = when (post.status) {
                 "recruiting" ->  "모집중"
                 "closed" -> "모집마감"
