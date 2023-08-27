@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import com.watso.app.util.ActivityController
 import com.watso.app.util.ErrorString
+import com.watso.app.util.RequestPermission
 import com.watso.app.util.VerifyInput
 import okhttp3.ResponseBody
 import java.lang.RuntimeException
@@ -20,9 +21,10 @@ data class ErrorResponse(val msg: String, val code: Int)
 
 open class BaseFragment: Fragment() {
 
-    lateinit var AC: ActivityController
     lateinit var mActivity: MainActivity
     lateinit var fragmentContext: Context
+    lateinit var AC: ActivityController
+    lateinit var RP: RequestPermission
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +44,7 @@ open class BaseFragment: Fragment() {
             this.mActivity = context
             fragmentContext = context
             AC = ActivityController(mActivity)
+            RP = RequestPermission(mActivity)
         } else {
             throw RuntimeException("$context must be MainActivity")
         }

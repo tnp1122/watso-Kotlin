@@ -26,7 +26,6 @@ import com.watso.app.feature.baedal.ui.viewModel.BaedalPostViewModel
 import com.watso.app.feature.user.data.AccountNumber
 import com.watso.app.feature.baedal.ui.view.baedalMenu.FragmentBaedalMenu
 import com.watso.app.feature.baedal.ui.view.baedalOrders.FragmentBaedalOrders
-import com.watso.app.util.RequestPermission
 import com.watso.app.util.SessionManager
 import okhttp3.ResponseBody
 import java.text.DecimalFormat
@@ -392,14 +391,14 @@ class FragmentBaedalPost :BaseFragment() {
     fun onMakeCommentSuccess() {
         super.onSuccess()
 
-        RequestPermission(activity as MainActivity).requestNotificationPermission()
+        RP.requestNotificationPermission()
         getComments()
     }
 
     fun onMakeSubCommentSuccess() {
         super.onSuccess()
 
-        RequestPermission(activity as MainActivity).requestNotificationPermission()
+        RP.requestNotificationPermission()
         getComments()
     }
 

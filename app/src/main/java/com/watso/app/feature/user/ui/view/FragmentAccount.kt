@@ -1,7 +1,6 @@
 package com.watso.app.feature.user.ui.view
 
 import android.app.AlertDialog
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
@@ -28,7 +27,6 @@ private const val LOGOUT = "로그아웃"
 
 class FragmentAccount :BaseFragment() {
 
-    lateinit var RP: RequestPermission
     lateinit var userInfo: UserInfo
 
     var mBinding: FragAccountBinding? = null
@@ -49,7 +47,6 @@ class FragmentAccount :BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mBinding = FragAccountBinding.inflate(inflater, container, false)
 
-        RP = RequestPermission(mActivity)
         RP.setNotiPermitChangedListener(object: RequestPermission.NotiPermitChangedListener {
             override fun onNotiPermitChanged() { bindSWNotificationPermission() }
         })

@@ -20,7 +20,6 @@ import com.watso.app.feature.baedal.data.*
 import com.watso.app.feature.baedal.ui.view.baedalList.FragmentBaedalList
 import com.watso.app.feature.baedal.ui.view.baedalPost.FragmentBaedalPost
 import com.watso.app.feature.baedal.ui.viewModel.BaedalConfirmViewModel
-import com.watso.app.util.RequestPermission
 import com.watso.app.util.SessionManager
 import java.text.DecimalFormat
 
@@ -216,7 +215,7 @@ class FragmentBaedalConfirm :BaseFragment() {
     }
 
     fun navigateToPost(isPostiong: Boolean=false) {
-        RequestPermission(activity as MainActivity).requestNotificationPermission()
+        RP.requestNotificationPermission()
         if (isPostiong)
             navigateTo(FragmentBaedalList(), popBackStack = 0)
         else
