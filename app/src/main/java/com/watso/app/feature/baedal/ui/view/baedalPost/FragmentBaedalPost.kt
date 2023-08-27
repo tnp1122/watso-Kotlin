@@ -43,6 +43,7 @@ private const val DELETE_ORDERS = "주문 삭제"
 private const val MAKE_COMMENT = "댓글 작성"
 private const val MAKE_SUB_COMMENT = "대댓글 작성"
 private const val GET_COMMENTS = "댓글 조회"
+private const val DELETE_COMMENT = "댓글 삭제"
 
 class FragmentBaedalPost :BaseFragment() {
 
@@ -288,6 +289,15 @@ class FragmentBaedalPost :BaseFragment() {
                 else -> onException(TAG, GET_COMMENTS, it.toString())
             }
         }
+
+        baedalPostViewModel.deleteCommentResponse.observe(mActivity) {
+            when (it) {
+                is BaseResponse.Loading -> onLoading()
+                is BaseResponse.Success -> onDeleteCommentsSuccess()
+                is BaseResponse.Error -> onError(TAG, DELETE_COMMENT, it.errorBody, it.msg)
+                else -> onException(TAG, DELETE_COMMENT, it.toString())
+            }
+        }
     }
 
     fun onTouchEvent(event: MotionEvent?): Boolean {
@@ -414,6 +424,12 @@ class FragmentBaedalPost :BaseFragment() {
         setComments()
     }
 
+    fun onDeleteCommentsSuccess() {
+        super.onSuccess()
+
+        getComments()
+    }
+
     fun onBtnOrder() {
         Log.d("[$TAG]btnOrder", "isMember: $isMember, ${postContent.users.size}, ${postContent.maxMember}")
         if (isMember) {
@@ -529,6 +545,10 @@ class FragmentBaedalPost :BaseFragment() {
         hideSoftInput()
         binding.etComment.setText("")
         baedalPostViewModel.getComments(postId!!)
+    }
+
+    fun deleteComment(comment: Comment) {
+        baedalPostViewModel.deleteComment(postId!!, comment._id)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -699,12 +719,12 @@ class FragmentBaedalPost :BaseFragment() {
         binding.rvComment.layoutManager =
             LinearLayoutManager(fragmentContext, LinearLayoutManager.VERTICAL, false)
         binding.rvComment.setHasFixedSize(true)
-        val adapter = CommentAdapter(mActivity, comments, userId, baedalPostViewModel, AC)
+        val adapter = CommentAdapter(mActivity, comments, userId)
         binding.rvComment.adapter = adapter
 
         adapter.setDeleteListener(object: CommentAdapter.OnDeleteListener {
-            override fun deleteComment() {
-                getComments()
+            override fun handleDeleteComment(comment: Comment) {
+                deleteComment(comment)
             }
         })
         adapter.setReplyListener(object : CommentAdapter.OnReplyListener {

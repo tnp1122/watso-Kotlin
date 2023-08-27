@@ -1,39 +1,26 @@
 package com.watso.app.feature.baedal.ui.view.baedalPost
 
 import android.app.AlertDialog
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.Gson
-import com.watso.app.ErrorResponse
 import com.watso.app.MainActivity
 import com.watso.app.R
-import com.watso.app.data.model.BaseResponse
 import com.watso.app.databinding.LytCommentBinding
 import com.watso.app.feature.baedal.data.Comment
-import com.watso.app.feature.baedal.ui.viewModel.BaedalPostViewModel
-import com.watso.app.util.ActivityController
-import com.watso.app.util.ErrorString
-import okhttp3.ResponseBody
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-private const val DELETE_COMMENT = "댓글 삭제"
 private const val TAG = "[CommentAdapter]"
 
 class CommentAdapter(
     val mActivity: MainActivity,
     val comments: MutableList<Comment>,
-    val userId: Long,
-    val baedalPostViewModel: BaedalPostViewModel,
-    val AC: ActivityController
+    val userId: Long
 ) : RecyclerView.Adapter<CommentAdapter.CustomViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
@@ -47,7 +34,7 @@ class CommentAdapter(
         holder.bind(comment)
     }
 
-    interface OnDeleteListener { fun deleteComment() }
+    interface OnDeleteListener { fun handleDeleteComment(comment: Comment) }
     interface OnReplyListener { fun makeReply(parentComment: Comment) }
 
     fun setDeleteListener(onDeleteListener: OnDeleteListener) { this.deleteListener = onDeleteListener }
@@ -73,8 +60,6 @@ class CommentAdapter(
              *      내 댓글 아님     ->
              *
              */
-
-            setObserver()
 
             if (comment.status == "created") {
                 binding.tvNickname.text = comment.nickname
@@ -108,54 +93,6 @@ class CommentAdapter(
             }
         }
 
-        fun setObserver() {
-            baedalPostViewModel.deleteCommentResponse.observe(mActivity) {
-                when (it) {
-                    is BaseResponse.Loading -> onLoading()
-                    is BaseResponse.Success -> onSuccess()
-                    is BaseResponse.Error -> onError(TAG, DELETE_COMMENT, it.errorBody, it.msg)
-                    else -> onException(TAG, DELETE_COMMENT, it.toString())
-                }
-            }
-        }
-
-        fun onLoading() { AC.showProgressBar() }
-
-        fun onSuccess() {
-            AC.hideProgressBar()
-            deleteListener.deleteComment()
-        }
-
-        fun onError(TAG: String, method: String, errorBody: ResponseBody?, msg: String?) {
-            AC.hideProgressBar()
-
-            if (errorBody != null) {
-                val gson = Gson()
-                val errorBodyObject = gson.fromJson(errorBody.string(), ErrorResponse::class.java)
-                Log.e(TAG,"$method ${ErrorString.FAIL} (${errorBodyObject.msg} - ${errorBodyObject.code})")
-                AC.showToast(errorBodyObject.msg)
-                return
-            }
-
-            if (msg == null) {
-                val errMsg = "$method ${ErrorString.FAIL}: ${ErrorString.E5001}"
-                Log.e(TAG, errMsg)
-                AC.showToast(errMsg)
-                return
-            }
-
-            val errMsg = "$method ${ErrorString.FAIL} [$msg]"
-            Log.e(TAG, errMsg)
-            AC.showToast(errMsg)
-        }
-
-        fun onException(TAG: String, method: String, exMsg: String) {
-            AC.hideProgressBar()
-
-            Log.e(TAG, "$method ${ErrorString.FAIL}, $exMsg")
-            AC.showToast("$method ${ErrorString.FAIL}")
-        }
-
         fun alertDelete(comment: Comment) {
             val builder = AlertDialog.Builder(mActivity)
             builder.setTitle("댓글 삭제하기")
@@ -167,7 +104,7 @@ class CommentAdapter(
         }
 
         fun deleteComment(comment: Comment) {
-            baedalPostViewModel.deleteComment(comment.postId, comment._id)
+            deleteListener.handleDeleteComment(comment)
         }
     }
 }
