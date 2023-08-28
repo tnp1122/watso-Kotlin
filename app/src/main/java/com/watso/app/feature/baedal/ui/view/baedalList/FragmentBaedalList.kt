@@ -44,8 +44,8 @@ class FragmentBaedalList :BaseFragment() {
     val baedalListViewModel by viewModels<BaedalListViewModel> ()
 
     var viewClickAble = true    // 포스트 중복 클릭 방지
-    var joined = true       // 참가한 게시글 여부
-    var joinable = true     // 참가 가능한 게시글 여부
+    var joined = false       // 참가한 게시글 여부
+    var joinable = false     // 참가 가능한 게시글 여부
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -183,6 +183,19 @@ class FragmentBaedalList :BaseFragment() {
             return
         }
 
+        if (postList.isEmpty()) {
+            if (isJoinableTable)
+                joinable = false
+            else
+                joined = false
+
+        } else {
+            if (isJoinableTable)
+                joinable = true
+            else
+                joined = true
+        }
+
         val sortedPostList = postList.sortedBy { it.orderTime }
         if (isJoinableTable) {
             joinablePosts = sortedPostList
@@ -209,28 +222,23 @@ class FragmentBaedalList :BaseFragment() {
                 joinableAdapter.setData(tables)
                 binding.divJoinable.visibility = View.VISIBLE
                 binding.rvBaedalListJoinable.visibility = View.VISIBLE
-                binding.lytFilter.visibility = View.VISIBLE
-                joinable = true
             } else {
                 joinedAdapter.setData(tables)
                 binding.lytJoinedTable.visibility = View.VISIBLE
-                joined = true
             }
         } else {
             if (isJoinableTable) {
                 binding.divJoinable.visibility = View.GONE
                 binding.rvBaedalListJoinable.visibility = View.GONE
-                binding.lytFilter.visibility = View.GONE
-                joinable = false
             } else {
                 binding.lytJoinedTable.visibility = View.GONE
-                joined = false
             }
         }
 
-        if (!joined && !joinable) {
-            binding.lytEmptyList.visibility = View.VISIBLE
-        } else binding.lytEmptyList.visibility = View.GONE
+        if (isJoinableTable)
+            setVisibilityEmptyLyt(tables.isNotEmpty())
+        else
+            setVisibilityEmptyLyt(joinable)
     }
 
     fun getFilteredPosts(filterBy: String): List<PostContent> {
@@ -239,5 +247,12 @@ class FragmentBaedalList :BaseFragment() {
             if (it.place == filterBy) filteredPosts.add(it)
         }
         return filteredPosts
+    }
+
+    fun setVisibilityEmptyLyt(isJoinable: Boolean) {
+        Log.d(TAG, "joined: ${joined}, isJoinable: ${isJoinable}")
+        if (joined || isJoinable)
+            binding.lytEmptyList.visibility = View.GONE
+        else binding.lytEmptyList.visibility = View.VISIBLE
     }
 }
