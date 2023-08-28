@@ -33,7 +33,7 @@
             android:theme="@style/Theme.OSSTheme"/>
 
         <service
-            android:name="com.watso.app.MyFirebaseMessagingService"
+            android:name="com.watso.app.util.MyFirebaseMessagingService"
             android:enabled="true"
             android:exported="true"
             android:stopWithTask="false">
