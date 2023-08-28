@@ -13,29 +13,30 @@ import androidx.core.app.ActivityCompat
 import com.watso.app.MainActivity
 
 class RequestPermission(val activity: MainActivity) {
-    private val TAG = "권한 요청"
+    private val TAG = "[권한 요청]"
     val PERMISSIONS_REQUEST_NOTIFICATION = 123
 
     interface NotiPermitChangedListener { fun onNotiPermitChanged() }
     private var notiPermitChangedListener: NotiPermitChangedListener? = null
+
     fun setNotiPermitChangedListener(listener: NotiPermitChangedListener) {
         this.notiPermitChangedListener = listener
     }
 
     fun requestNotificationPermission() {
-        if (getPrefs() == "") showPurposeDialog()
+        if (getStatus() == "") showPurposeDialog()
     }
 
     fun changeNotificationEnabled() {
         if (isNotificationEnabled()) {
-            setPrefs("false")
+            setStatus("false")
         } else {
-            when (getPrefs()) {
+            when (getStatus()) {
                 "false" -> {
                     if (isNotificationPermitted())
-                        setPrefs("true")
+                        setStatus("true")
                     else
-                        setPrefs("false")
+                        setStatus("false")
                 }
                 else -> showPurposeDialog()
             }
@@ -48,12 +49,12 @@ class RequestPermission(val activity: MainActivity) {
     }
 
     fun isNotificationEnabled(): Boolean {
-        Log.d("[$TAG] 알림가능여부","getPrefs: ${getPrefs()}, isPermitted: ${isNotificationPermitted()}")
-        if (getPrefs() == "true") {
+        Log.d("[$TAG] 알림가능여부","getPrefs: ${getStatus()}, isPermitted: ${isNotificationPermitted()}")
+        if (getStatus() == "true") {
             if (isNotificationPermitted())
                 return true
             else {
-                setPrefs("denied")
+                setStatus("denied")
                 return false
             }
         }
@@ -66,7 +67,7 @@ class RequestPermission(val activity: MainActivity) {
             .setMessage("게시글 관련 안내사항이나 댓글소식을 알림으로 전달받기 위해서 권한을 요청합니다.")
             .setPositiveButton("알림 설정", DialogInterface.OnClickListener { _, _ ->
                 getNotiPermission()
-                setPrefs("true")
+                setStatus("true")
             })
             .setNegativeButton("거절", DialogInterface.OnClickListener { _, _ ->
                 notiPermitChangedListener?.onNotiPermitChanged()
@@ -78,7 +79,7 @@ class RequestPermission(val activity: MainActivity) {
     }
 
     fun getNotiPermission() {
-        if (getPrefs() == "") {
+        if (getStatus() == "") {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 ActivityCompat.requestPermissions(
                     activity,
@@ -97,11 +98,11 @@ class RequestPermission(val activity: MainActivity) {
         activity.startActivity(intent)
     }
 
-    fun getPrefs():String {
-        return MainActivity.prefs.getString("notificationPermission", "")
+    fun getStatus():String {
+        return MainActivity.prefs.getString("useNotification", "")
     }
 
-    fun setPrefs(status: String) {
-        MainActivity.prefs.setString("notificationPermission", status)
+    fun setStatus(status: String) {
+        MainActivity.prefs.setString("useNotification", status)
     }
 }
