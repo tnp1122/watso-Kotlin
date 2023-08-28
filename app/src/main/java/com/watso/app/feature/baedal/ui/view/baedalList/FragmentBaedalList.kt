@@ -18,7 +18,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.watso.app.BaseFragment
 import com.watso.app.data.model.BaseResponse
-import com.watso.app.databinding.FragBaedalBinding
+import com.watso.app.databinding.FragBaedalListBinding
 import com.watso.app.feature.baedal.data.PostContent
 import com.watso.app.feature.baedal.ui.view.baedalAdd.FragmentBaedalAdd
 import com.watso.app.feature.baedal.ui.view.baedalPost.FragmentBaedalPost
@@ -38,7 +38,7 @@ class FragmentBaedalList :BaseFragment() {
     lateinit var joinableAdapter: TableAdapter
     var joinablePosts = listOf<PostContent>()
 
-    var mBinding: FragBaedalBinding? = null
+    var mBinding: FragBaedalListBinding? = null
     val binding get() = mBinding!!
     val TAG = "[FragBaedalList]"
     val baedalListViewModel by viewModels<BaedalListViewModel> ()
@@ -55,7 +55,7 @@ class FragmentBaedalList :BaseFragment() {
     @SuppressLint("ClickableViewAccessibility")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mBinding = FragBaedalBinding.inflate(inflater, container, false)
+        mBinding = FragBaedalListBinding.inflate(inflater, container, false)
 
         setFragmentResultListener()
         setUpUI()
