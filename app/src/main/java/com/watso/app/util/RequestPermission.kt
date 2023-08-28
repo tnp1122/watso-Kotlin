@@ -49,15 +49,13 @@ class RequestPermission(val activity: MainActivity) {
     }
 
     fun isNotificationEnabled(): Boolean {
-        Log.d("[$TAG] 알림가능여부","getPrefs: ${getStatus()}, isPermitted: ${isNotificationPermitted()}")
-        if (getStatus() == "true") {
-            if (isNotificationPermitted())
-                return true
-            else {
-                setStatus("denied")
-                return false
-            }
+        Log.d(TAG, "getStatus: ${getStatus()}, isNotificationPermitted: ${isNotificationPermitted()}")
+        if (isNotificationPermitted()) {
+            setStatus("true")
+            return true
         }
+
+        setStatus("false")
         return false
     }
 
